@@ -1,119 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.2</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>de.mediathekview</groupId>
-	<artifactId>fimlistmerger</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>fimlistmerger</name>
-	<description>A tool to merge multiple fimlists into a single one</description>
-	<properties>
-		<java.version>15</java.version>
-	</properties>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>de.mediathekview</groupId>
+    <artifactId>filmlistmerger</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Filmlist merger</name>
+    <description>A tool to merge multiple fimlists into a single one</description>
+    <properties>
+        <java.version>15</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<!-- Camel BOM -->
-			<dependency>
-				<groupId>org.apache.camel.springboot</groupId>
-				<artifactId>camel-spring-boot-bom</artifactId>
-				<version>3.8.0</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <licenses>
+        <license>
+            <name>GNU General Public License (GPL) version 3.0</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
 
+    <developers>
+        <developer>
+            <id>Nicklas2751</id>
+            <name>Nicklas Wiegandt</name>
+            <email>nicklas@mediathekview.de</email>
+            <url>nicklas.wiegandt.eu</url>
+        </developer>
+    </developers>
 
-	<dependencies>
-		<dependency>
-			<groupId>de.mediathekview</groupId>
-			<artifactId>MLib</artifactId>
-			<version>4.0.1-SNAPSHOT</version>
-		</dependency>
+    <scm>
+        <connection>scm:git:git://github.com/mediathekview/FilmlistMerger.git</connection>
+        <developerConnection>scm:git:ssh://github.com:mediathekview/FilmlistMerger.git</developerConnection>
+        <url>https://github.com/mediathekview/FilmlistMerger/tree/master</url>
+    </scm>
 
-		<dependency>
-			<groupId>org.apache.camel.springboot</groupId>
-			<artifactId>camel-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel.springboot</groupId>
-			<artifactId>camel-file-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel.springboot</groupId>
-			<artifactId>camel-file-watch-starter</artifactId>
-		</dependency>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Camel BOM -->
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-spring-boot-bom</artifactId>
+                <version>3.8.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>de.mediathekview</groupId>
+            <artifactId>MLib</artifactId>
+            <version>4.0.1-SNAPSHOT</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-test-spring-junit5</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-file-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-file-watch-starter</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<version>3.19.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>3.7.7</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.github.hakky54</groupId>
-			<artifactId>logcaptor</artifactId>
-			<version>2.4.0</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-test-spring-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.19.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.7.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.hakky54</groupId>
+            <artifactId>logcaptor</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Plugins to generate Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.8.2</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+
+            <!-- Build a source Jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Build Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>
