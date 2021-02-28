@@ -1,0 +1,5 @@
+{
+  "name": "SimpleJsonFile",
+  "type": "JSON",
+  "description": "A simple json File to check that it's not get recognized as filmlist."
+}
