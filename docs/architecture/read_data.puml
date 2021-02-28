@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+skinparam conditionStyle diamond
+|Main|
+start
+:InputFilesRoute;
+:InputFileDetection;
+split
+    |Old format|
+    :Read old format;
+split again
+    |New format|
+    :Read new format;
+split again
+    |Unknown format|
+    stop
+end split
+|Main|
+:Write to DB;
+stop
+@enduml
