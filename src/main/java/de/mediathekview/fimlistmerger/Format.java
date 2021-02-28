@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public enum Format {
     OLD("old format"),
+    NEW("new format"),
     UNKNOWN("unknown format");
 
     private final String name;
