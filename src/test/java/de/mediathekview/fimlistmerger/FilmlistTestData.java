@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import de.mediathekview.mlib.daten.*;
 
@@ -15,8 +15,8 @@ public final class FilmlistTestData {
     super();
   }
 
-  public static Collection<Film> createFilme() throws MalformedURLException {
-    final Collection<Film> films = new ArrayList<>();
+  public static List<Film> createFilme() throws MalformedURLException {
+    final List<Film> films = new ArrayList<>();
 
     final Film testFilm1 =
         new Film(
@@ -28,9 +28,9 @@ public final class FilmlistTestData {
             Duration.of(10, ChronoUnit.MINUTES));
     testFilm1.setWebsite(new URL("http://www.example.org/"));
     testFilm1.setBeschreibung("Test beschreibung.");
-    testFilm1.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42l));
-    testFilm1.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42l));
-    testFilm1.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42l));
+    testFilm1.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42L));
+    testFilm1.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42L));
+    testFilm1.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42L));
 
     final Film testFilm2 =
             new Film(
@@ -42,9 +42,9 @@ public final class FilmlistTestData {
                     Duration.of(10, ChronoUnit.MINUTES));
     testFilm1.setWebsite(new URL("http://www.example.org/"));
     testFilm1.setBeschreibung("Test beschreibung.");
-    testFilm1.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42l));
-    testFilm1.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42l));
-    testFilm1.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42l));
+    testFilm1.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42L));
+    testFilm1.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42L));
+    testFilm1.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42L));
 
     final Film testFilm3 =
         new Film(
@@ -56,9 +56,9 @@ public final class FilmlistTestData {
             Duration.of(10, ChronoUnit.MINUTES));
     testFilm2.setWebsite(new URL("http://www.example.org/2"));
     testFilm2.setBeschreibung("Test beschreibung.");
-    testFilm2.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein2.mp4"), 42l));
-    testFilm2.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test2.mp4"), 42l));
-    testFilm2.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd2.mp4"), 42l));
+    testFilm2.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein2.mp4"), 42L));
+    testFilm2.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test2.mp4"), 42L));
+    testFilm2.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd2.mp4"), 42L));
 
     final Film testFilm4 =
         new Film(
@@ -70,9 +70,9 @@ public final class FilmlistTestData {
             Duration.of(10, ChronoUnit.MINUTES));
     testFilm3.setWebsite(new URL("http://www.example.org/"));
     testFilm3.setBeschreibung("Test beschreibung.");
-    testFilm3.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42l));
-    testFilm3.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42l));
-    testFilm3.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42l));
+    testFilm3.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42L));
+    testFilm3.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42L));
+    testFilm3.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42L));
 
     films.add(testFilm1);
     films.add(testFilm2);

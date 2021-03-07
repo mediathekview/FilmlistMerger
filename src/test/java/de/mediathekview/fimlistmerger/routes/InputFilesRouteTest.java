@@ -23,7 +23,7 @@ import static de.mediathekview.fimlistmerger.routes.InputFilesRoute.ROUTE_ID;
 
 @SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*"})
 @EnableRouteCoverage
-public class InputFilesRouteTest {
+class InputFilesRouteTest {
   @TempDir File tempDir;
 
   @Autowired CamelContext camelContext;
