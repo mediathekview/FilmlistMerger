@@ -17,9 +17,8 @@ public class ReadNewFilmlistFormatRoute extends RouteBuilder {
         .routeId(ROUTE_ID)
         .split()
         .jsonpathWriteAsString("$.films[*]").id(READ_FILMS_FROM_NEW_FILMLIST_JSON_PATH)
-        .convertBodyTo(Film.class)
-        .log("${body}")
-        .to(FilmToDatabaseTargetRoute.ROUTE_FROM)
-        .id(SINGLE_FILM_ROUTING_TARGET);
-  }
+        .unmarshal().json(Film.class)
+        .log("New body: ${body}")
+        .to(FilmToDatabaseTargetRoute.ROUTE_FROM).id(SINGLE_FILM_ROUTING_TARGET);
+    }
 }

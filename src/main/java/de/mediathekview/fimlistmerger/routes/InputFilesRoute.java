@@ -6,14 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class InputFilesRoute extends RouteBuilder {
     public static final String ROUTE_ID = "InputFilesRoute";
-    private static final String NEW_FILM_FORMAT_ROUTING_TARGET = "newFilmFormatRoutingTarget";
+    public static final String NEW_FILM_FORMAT_ROUTING_TARGET = "newFilmFormatRoutingTarget";
 
     @Override
     public void configure()  {
     from("file://input?charset=utf-8")
             .routeId(ROUTE_ID)
             .log("Found file ${header.CamelFileName}")
-            .to(ReadNewFilmlistFormatRoute.DIRECT_SPLIT_NEW_FILMLIST_TO_FILMS).id(NEW_FILM_FORMAT_ROUTING_TARGET)
-    ;
+            .to(ReadNewFilmlistFormatRoute.DIRECT_SPLIT_NEW_FILMLIST_TO_FILMS).id(NEW_FILM_FORMAT_ROUTING_TARGET);
     }
 }

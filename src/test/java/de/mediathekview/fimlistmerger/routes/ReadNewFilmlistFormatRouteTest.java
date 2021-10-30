@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 import static de.mediathekview.fimlistmerger.routes.ReadNewFilmlistFormatRoute.ROUTE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
 
 @SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*"})
 @EnableRouteCoverage
@@ -38,10 +37,7 @@ class ReadNewFilmlistFormatRouteTest {
         camelContext,
         ROUTE_ID,
         advice -> {
-          advice
-              .weaveById(ReadNewFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET)
-              .replace()
-              .to(mockEndpoint);
+          advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET).replace().to(mockEndpoint);
         });
   }
 
@@ -49,25 +45,26 @@ class ReadNewFilmlistFormatRouteTest {
   @DisplayName("Tests if a simple film json is converted to a valid film object")
   void readNewFilmlistFormat_simpleFilmJson_ValidFilmObject() throws Exception {
     // given
-    AdviceWith.adviceWith(
-        camelContext,
-        ROUTE_ID,
-        advice -> advice
-              .weaveById(ReadNewFilmlistFormatRoute.READ_FILMS_FROM_NEW_FILMLIST_JSON_PATH)
-              .remove());
 
     // when
     template.sendBody(ReadNewFilmlistFormatRoute.DIRECT_SPLIT_NEW_FILMLIST_TO_FILMS, """
       {
-        "titel":"Ein einfacher Titel um die Objekt erzeugung zu testen"
+        "films": [
+          {
+            "titel":"Ein einfacher Titel um die Objekt Erzeugung zu testen"
+          }
+        ]
       }
     """);
 
     // then
     mockEndpoint.assertIsSatisfied();
-    assertThat(mockEndpoint.getExchanges()).hasSize(1)
-            .extracting("title")
-            .containsOnly(tuple("Ein einfacher Titel um die Objekt erzeugung zu testen"));
+    assertThat( mockEndpoint.getExchanges().stream()
+            .map(Exchange::getIn)
+            .map(Message::getBody)
+            .collect(Collectors.toList())).hasSize(1)
+            .extracting("titel")
+            .containsOnly("Ein einfacher Titel um die Objekt Erzeugung zu testen");
   }
 
   //@Test
