@@ -8,11 +8,15 @@ import org.apache.camel.test.spring.junit5.EnableRouteCoverage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.stream.Collectors;
 
 import static de.mediathekview.fimlistmerger.routes.ReadNewFilmlistFormatRoute.ROUTE_ID;
@@ -26,20 +30,28 @@ class ReadNewFilmlistFormatRouteTest {
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;
 
+  @TempDir
+  File tempDir;
   File tempInputFile;
 
   @Produce("direct:producer")
   private ProducerTemplate template;
 
-  @BeforeEach
-  void setUpRouteUnderTest() throws Exception {
-    AdviceWith.adviceWith(
-        camelContext,
-        ROUTE_ID,
-        advice -> {
-          advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET).replace().to(mockEndpoint);
-        });
-  }
+    @BeforeEach
+    void setUp() throws Exception {
+      setUpRouteUnderTest();
+      tempInputFile = File.createTempFile("test", ".json", tempDir);
+      Files.copy(Paths.get(ClassLoader.getSystemResource("input/TestFilmlistNew.json").toURI()), tempInputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    private void setUpRouteUnderTest() throws Exception {
+      AdviceWith.adviceWith(
+              camelContext,
+              ROUTE_ID,
+              advice -> {
+                advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET).replace().to(mockEndpoint);
+              });
+    }
 
   @Test
   @DisplayName("Tests if a simple film json is converted to a valid film object")
@@ -67,7 +79,7 @@ class ReadNewFilmlistFormatRouteTest {
             .containsOnly("Ein einfacher Titel um die Objekt Erzeugung zu testen");
   }
 
-  //@Test
+  @Test
   @DisplayName("Tests if a filmlist in the new format is correctly read")
   void readNewFilmlistFormat_filmlistNewFormat_AllFilmsRead()
       throws MalformedURLException, InterruptedException {
