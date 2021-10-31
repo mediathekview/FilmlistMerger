@@ -1,2 +1,0 @@
-# FilmlistMerger
-Merges filmlists 
