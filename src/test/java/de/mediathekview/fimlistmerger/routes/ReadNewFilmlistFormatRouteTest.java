@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -23,6 +24,7 @@ import static de.mediathekview.fimlistmerger.routes.ReadNewFilmlistFormatRoute.R
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*"})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
 class ReadNewFilmlistFormatRouteTest {
   @Autowired CamelContext camelContext;
