@@ -1,0 +1,16 @@
+= Filmlist Merger
+
+Merges Film Lists
+
+== Deployment View
+
+=== Maven Buildfile
+
+To gain a good maven pom we use https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems.dependency-management[Spring Boots Parent Pom] to gain the advantages of the Spring Boot build system for dependencies and also for versions.
+
+Our ``pom.xml`` will be sorted with https://github.com/Ekryd/sortpom[``sortpom-maven-plugin``]. If you change something please run the plugin before commit. Here is the commandline you need:
+
+.Maven CLI to get the pom in correct order
+====
+``mvn com.github.ekryd.sortpom:sortpom-maven-plugin:sort -Dsort.keepBlankLines -Dsort.predefinedSortOrder=recommended_2008_06``
+====
