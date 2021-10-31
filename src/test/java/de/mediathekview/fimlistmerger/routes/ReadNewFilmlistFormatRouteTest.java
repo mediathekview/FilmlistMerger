@@ -48,9 +48,7 @@ class ReadNewFilmlistFormatRouteTest {
       AdviceWith.adviceWith(
               camelContext,
               ROUTE_ID,
-              advice -> {
-                advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET).replace().to(mockEndpoint);
-              });
+              advice -> advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET).replace().to(mockEndpoint));
     }
 
   @Test
@@ -96,6 +94,6 @@ class ReadNewFilmlistFormatRouteTest {
                 .map(Exchange::getIn)
                 .map(Message::getBody)
                 .collect(Collectors.toList()))
-        .containsExactlyElementsOf(FilmlistTestData.createFilme());
+        .containsExactlyInAnyOrderElementsOf(FilmlistTestData.createFilme());
   }
 }

@@ -1,1 +1,95 @@
-{"films":{"a35dd775-1345-411f-9525-eda494c7f475":{"audioDescriptions":{},"signLanguages":{},"subtitles":[],"duration":{"seconds":600,"nanos":0},"neu":false,"urls":{"HD":{"url":"http://example.org/hd.mp4","fileSize":42},"NORMAL":{"url":"http://example.org/Test.mp4","fileSize":42},"SMALL":{"url":"http://example.org/klein.mp4","fileSize":42}},"uuid":"a35dd775-1345-411f-9525-eda494c7f475","sender":"ARD","time":{"date":{"year":2017,"month":1,"day":1},"time":{"hour":23,"minute":55,"second":0,"nano":0}},"geoLocations":[],"titel":"TestTitel","thema":"TestThema","beschreibung":"Test beschreibung.","website":"http://www.example.org/"},"be48f54b-0bbc-4e44-90e9-b457338c2f41":{"audioDescriptions":{},"signLanguages":{},"subtitles":[],"duration":{"seconds":600,"nanos":0},"neu":false,"urls":{"HD":{"url":"http://example.org/hd2.mp4","fileSize":42},"NORMAL":{"url":"http://example.org/Test2.mp4","fileSize":42},"SMALL":{"url":"http://example.org/klein2.mp4","fileSize":42}},"uuid":"be48f54b-0bbc-4e44-90e9-b457338c2f41","sender":"ARD","time":{"date":{"year":2017,"month":1,"day":1},"time":{"hour":23,"minute":55,"second":0,"nano":0}},"geoLocations":[],"titel":"TestTitel","thema":"TestThema","beschreibung":"Test beschreibung.","website":"http://www.example.org/2"},"de67b285-002d-414c-8d35-24bec292f985":{"audioDescriptions":{},"signLanguages":{},"subtitles":[],"duration":{"seconds":600,"nanos":0},"neu":false,"urls":{"HD":{"url":"http://example.org/hd.mp4","fileSize":42},"NORMAL":{"url":"http://example.org/Test.mp4","fileSize":42},"SMALL":{"url":"http://example.org/klein.mp4","fileSize":42}},"uuid":"de67b285-002d-414c-8d35-24bec292f985","sender":"BR","time":{"date":{"year":2017,"month":1,"day":1},"time":{"hour":23,"minute":55,"second":0,"nano":0}},"geoLocations":[],"titel":"TestTitel","thema":"TestThema2","beschreibung":"Test beschreibung.","website":"http://www.example.org/"}},"podcasts":{},"livestreams":{},"creationDate":{"date":{"year":2019,"month":10,"day":20},"time":{"hour":20,"minute":4,"second":40,"nano":656850787}},"listId":"5f330449-c9d2-4b67-89b4-75373b38b9f8"}
+{
+  "films": {
+    "4fd93b56-df3d-4182-ae18-04cf207e224e": {
+      "audioDescriptions": {},
+      "signLanguages": {},
+      "subtitles": [],
+      "duration": "PT10M",
+      "neu": false,
+      "urls": {
+        "HD": {
+          "url": "http://example.org/hd2.mp4",
+          "fileSize": 42
+        },
+        "NORMAL": {
+          "url": "http://example.org/Test2.mp4",
+          "fileSize": 42
+        },
+        "SMALL": {
+          "url": "http://example.org/klein2.mp4",
+          "fileSize": 42
+        }
+      },
+      "uuid": "4fd93b56-df3d-4182-ae18-04cf207e224e",
+      "sender": "ARD",
+      "time": "2017-01-01T23:55:00",
+      "geoLocations": [],
+      "titel": "TestTitel",
+      "thema": "TestThema",
+      "beschreibung": "Test beschreibung.",
+      "website": "http://www.example.org/2"
+    },
+    "c5c001cb-2fc2-494e-8723-cdf0726147be": {
+      "audioDescriptions": {},
+      "signLanguages": {},
+      "subtitles": [],
+      "duration": "PT10M",
+      "neu": false,
+      "urls": {
+        "HD": {
+          "url": "http://example.org/hd.mp4",
+          "fileSize": 42
+        },
+        "NORMAL": {
+          "url": "http://example.org/Test.mp4",
+          "fileSize": 42
+        },
+        "SMALL": {
+          "url": "http://example.org/klein.mp4",
+          "fileSize": 42
+        }
+      },
+      "uuid": "c5c001cb-2fc2-494e-8723-cdf0726147be",
+      "sender": "ARD",
+      "time": "2017-01-01T23:55:00",
+      "geoLocations": [],
+      "titel": "TestTitel",
+      "thema": "TestThema",
+      "beschreibung": "Test beschreibung.",
+      "website": "http://www.example.org/"
+    },
+    "fa75aeac-dee2-4820-8418-91e61ac586fe": {
+      "audioDescriptions": {},
+      "signLanguages": {},
+      "subtitles": [],
+      "duration": "PT10M",
+      "neu": false,
+      "urls": {
+        "HD": {
+          "url": "http://example.org/hd.mp4",
+          "fileSize": 42
+        },
+        "NORMAL": {
+          "url": "http://example.org/Test.mp4",
+          "fileSize": 42
+        },
+        "SMALL": {
+          "url": "http://example.org/klein.mp4",
+          "fileSize": 42
+        }
+      },
+      "uuid": "fa75aeac-dee2-4820-8418-91e61ac586fe",
+      "sender": "BR",
+      "time": "2017-01-01T23:55:00",
+      "geoLocations": [],
+      "titel": "TestTitel",
+      "thema": "TestThema2",
+      "beschreibung": "Test beschreibung.",
+      "website": "http://www.example.org/"
+    }
+  },
+  "podcasts": {},
+  "livestreams": {},
+  "creationDate": "2021-10-31T09:22:44",
+  "listId": "d8bfc10e-14f6-4dae-b5f7-7807f44999a5"
+}

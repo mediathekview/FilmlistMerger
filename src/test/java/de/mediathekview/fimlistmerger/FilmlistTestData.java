@@ -1,5 +1,7 @@
 package de.mediathekview.fimlistmerger;
 
+import de.mediathekview.mlib.daten.*;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -8,7 +10,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import de.mediathekview.mlib.daten.*;
 
 public final class FilmlistTestData {
   private FilmlistTestData(){
@@ -20,7 +21,7 @@ public final class FilmlistTestData {
 
     final Film testFilm1 =
         new Film(
-            UUID.randomUUID(),
+            UUID.fromString("c5c001cb-2fc2-494e-8723-cdf0726147be"),
             Sender.ARD,
             "TestTitel",
             "TestThema",
@@ -34,11 +35,11 @@ public final class FilmlistTestData {
 
     final Film testFilm2 =
             new Film(
-                    UUID.randomUUID(),
-                    Sender.ARD,
+                    UUID.fromString("fa75aeac-dee2-4820-8418-91e61ac586fe"),
+                    Sender.BR,
                     "TestTitel",
                     "TestThema2",
-                    LocalDateTime.parse("2018-01-01T23:54:00"),
+                    LocalDateTime.parse("2018-01-01T23:55:00"),
                     Duration.of(10, ChronoUnit.MINUTES));
     testFilm1.setWebsite(new URL("http://www.example.org/"));
     testFilm1.setBeschreibung("Test beschreibung.");
@@ -48,7 +49,7 @@ public final class FilmlistTestData {
 
     final Film testFilm3 =
         new Film(
-            UUID.randomUUID(),
+            UUID.fromString("4fd93b56-df3d-4182-ae18-04cf207e224e"),
             Sender.ARD,
             "TestTitel",
             "TestThema",
@@ -59,20 +60,6 @@ public final class FilmlistTestData {
     testFilm2.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein2.mp4"), 42L));
     testFilm2.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test2.mp4"), 42L));
     testFilm2.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd2.mp4"), 42L));
-
-    final Film testFilm4 =
-        new Film(
-            UUID.randomUUID(),
-            Sender.BR,
-            "TestTitel",
-            "TestThema2",
-            LocalDateTime.parse("2017-01-01T23:55:00"),
-            Duration.of(10, ChronoUnit.MINUTES));
-    testFilm3.setWebsite(new URL("http://www.example.org/"));
-    testFilm3.setBeschreibung("Test beschreibung.");
-    testFilm3.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42L));
-    testFilm3.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42L));
-    testFilm3.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42L));
 
     films.add(testFilm1);
     films.add(testFilm2);
