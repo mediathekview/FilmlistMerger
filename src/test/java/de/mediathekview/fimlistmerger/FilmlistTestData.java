@@ -1,6 +1,9 @@
 package de.mediathekview.fimlistmerger;
 
-import de.mediathekview.mlib.daten.*;
+import de.mediathekview.mlib.daten.Film;
+import de.mediathekview.mlib.daten.FilmUrl;
+import de.mediathekview.mlib.daten.Resolution;
+import de.mediathekview.mlib.daten.Sender;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("HttpUrlsUsage")
 public final class FilmlistTestData {
-  private FilmlistTestData(){
+  private FilmlistTestData() {
     super();
   }
 
@@ -34,13 +38,13 @@ public final class FilmlistTestData {
     testFilm1.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42L));
 
     final Film testFilm2 =
-            new Film(
-                    UUID.fromString("fa75aeac-dee2-4820-8418-91e61ac586fe"),
-                    Sender.BR,
-                    "TestTitel",
-                    "TestThema2",
-                    LocalDateTime.parse("2018-01-01T23:55:00"),
-                    Duration.of(10, ChronoUnit.MINUTES));
+        new Film(
+            UUID.fromString("fa75aeac-dee2-4820-8418-91e61ac586fe"),
+            Sender.BR,
+            "TestTitel",
+            "TestThema2",
+            LocalDateTime.parse("2018-01-01T23:55:00"),
+            Duration.of(10, ChronoUnit.MINUTES));
     testFilm1.setWebsite(new URL("http://www.example.org/"));
     testFilm1.setBeschreibung("Test beschreibung.");
     testFilm1.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42L));
@@ -65,11 +69,5 @@ public final class FilmlistTestData {
     films.add(testFilm2);
     films.add(testFilm3);
     return films;
-  }
-
-  public static Filmlist createTestdataNewFormat() throws MalformedURLException {
-    final Filmlist testData = new Filmlist();
-    testData.addAllFilms(createFilme());
-    return testData;
   }
 }

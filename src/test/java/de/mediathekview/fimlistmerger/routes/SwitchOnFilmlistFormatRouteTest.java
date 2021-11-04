@@ -8,10 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class SwitchOnFilmlistFormatRouteTest {
   @TempDir File tempDir;
 
-  @Autowired CamelContext camelContext;
+  @Inject CamelContext camelContext;
 
   @EndpointInject("mock:direct:resultOld")
   MockEndpoint mockOldFormatEndpoint;
@@ -57,10 +57,10 @@ class SwitchOnFilmlistFormatRouteTest {
         ROUTE_ID,
         advice -> {
           advice.replaceFromWith(fromUri);
-          /*advice
-          .weaveById(SwitchOnFilmlistFormatRoute.OLD_FILM_FORMAT_ROUTING_TARGET)
-          .replace()
-          .to(mockOldFormatEndpoint);*/
+          advice
+              .weaveById(SwitchOnFilmlistFormatRoute.OLD_FILM_FORMAT_ROUTING_TARGET)
+              .replace()
+              .to(mockOldFormatEndpoint);
           advice
               .weaveById(SwitchOnFilmlistFormatRoute.NEW_FILM_FORMAT_ROUTING_TARGET)
               .replace()
@@ -111,11 +111,7 @@ class SwitchOnFilmlistFormatRouteTest {
   @DisplayName("Check if a file which is not a filmlist leads to a exception")
   void switchOnFilmlistFormat_notFilmlist_ExceptionThrown() throws Exception {
     AdviceWith.adviceWith(
-        camelContext,
-        ROUTE_ID,
-        advice -> {
-          advice.weaveAddLast().to(mockExceptionEndpoint);
-        });
+        camelContext, ROUTE_ID, advice -> advice.weaveAddLast().to(mockExceptionEndpoint));
     // GIVEN
     Files.copy(
         Paths.get(ClassLoader.getSystemResource("input/SimpleJsonFile.json").toURI()),

@@ -23,8 +23,8 @@ public class SwitchOnFilmlistFormatRoute extends RouteBuilder {
             .choice()
             .when(exchange -> isFilmlistFormat(exchange, Format.NEW))
                 .to(ReadNewFilmlistFormatRoute.DIRECT_SPLIT_NEW_FILMLIST_TO_FILMS).id(NEW_FILM_FORMAT_ROUTING_TARGET)
-            /*.when(exchange -> isFilmlistFormat(exchange, Format.OLD))
-                .to(ReadOldFilmlistFormatRoute.DIRECT_SPLIT_OLD_FILMLIST_TO_FILMS).id(OLD_FILM_FORMAT_ROUTING_TARGET)*/
+            .when(exchange -> isFilmlistFormat(exchange, Format.OLD))
+                .to(ReadOldFilmlistFormatRoute.DIRECT_READ_OLD_FILMLIST).id(OLD_FILM_FORMAT_ROUTING_TARGET)
             .otherwise().throwException(new UnknownFilmlistFormatException());
     }
 

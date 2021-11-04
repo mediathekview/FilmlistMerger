@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class OldFilmlistDataFormat extends ServiceSupport implements DataFormat, DataFormatName {
+
+  public static final String DATA_FORMAT_NAME_OLDFILMLIST = "oldfilmlist";
+
   @Override
   public void marshal(Exchange exchange, Object graph, OutputStream stream) throws Exception {
     new FilmlistOldFormatWriter().write(ExchangeHelper.convertToMandatoryType(exchange, Filmlist.class, graph), stream);
@@ -25,6 +28,6 @@ public class OldFilmlistDataFormat extends ServiceSupport implements DataFormat,
 
   @Override
   public String getDataFormatName() {
-    return "oldfilmlist";
+    return DATA_FORMAT_NAME_OLDFILMLIST;
   }
 }
