@@ -53,7 +53,7 @@ class InputFilesRouteTest {
         advice -> {
           advice.replaceFromWith("file://" + tempDir.getAbsolutePath());
           advice
-              .weaveById(InputFilesRoute.NEW_FILM_FORMAT_ROUTING_TARGET)
+              .weaveById(InputFilesRoute.SWITCH_ON_FILMLIST_FORMAT_ROUTING_TARGET)
               .replace()
               .to(mockEndpoint);
         });

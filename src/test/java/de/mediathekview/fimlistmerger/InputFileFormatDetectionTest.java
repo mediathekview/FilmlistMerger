@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class InputFileDetectionTest {
+class InputFileFormatDetectionTest {
 
   private static final String TEST_FILE_INPUT_DIRECTORY = "input";
 
@@ -36,7 +36,8 @@ class InputFileDetectionTest {
   @MethodSource("providePathsAndFormats")
   void checkFileType_file_determineFileFormat(String testFileName, Format expectedFormat)
       throws URISyntaxException {
-    assertThat(new InputFileDetection().checkFileType(testFileNameToPath(testFileName).toFile()))
+    assertThat(
+            new InputFileFormatDetection().checkFileType(testFileNameToPath(testFileName).toFile()))
         .isEqualTo(expectedFormat);
   }
 
@@ -44,7 +45,7 @@ class InputFileDetectionTest {
   @DisplayName("Check if a non existing file leads brings the unknown format")
   void checkFileType_nonExistingFile_unknownFormat() throws URISyntaxException {
     assertThat(
-            new InputFileDetection()
+            new InputFileFormatDetection()
                 .checkFileType(testFileNameToPath("NotExistingFile.json").toFile()))
         .isEqualTo(Format.UNKNOWN);
   }
@@ -52,8 +53,9 @@ class InputFileDetectionTest {
   @Test
   @DisplayName("Check if a non existing file leads to a error log message")
   void checkFileType_nonExistingFile_errorMessage() throws URISyntaxException {
-    LogCaptor logCaptor = LogCaptor.forClass(InputFileDetection.class);
-    new InputFileDetection().checkFileType(testFileNameToPath("NotExistingFile.json").toFile());
+    LogCaptor logCaptor = LogCaptor.forClass(InputFileFormatDetection.class);
+    new InputFileFormatDetection()
+        .checkFileType(testFileNameToPath("NotExistingFile.json").toFile());
     assertThat(logCaptor.getErrorLogs())
         .containsExactly(
             "An error IO appeared while determining the file type of NotExistingFile.json. Please check the file permissions!");
