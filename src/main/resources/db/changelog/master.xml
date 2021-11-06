@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="Nicklas Wiegandt" id="1">
+        <createTable tableName="filmdao">
+            <column name="sender" type="varchar_ignorecase">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+            </column>
+            <column name="titel" type="varchar_ignorecase">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+            </column>
+            <column name="thema" type="varchar_ignorecase">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+            </column>
+            <column name="duration" type="varchar_ignorecase">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+            </column>
+            <column name="neu" type="boolean"/>
+        </createTable>
+        <addPrimaryKey columnNames="sender,titel,thema,dauer" constraintName="PK_FILMDAO" tableName="filmdao"/>
+        <createIndex tableName="filmdao" indexName="websiteentrydao_date_idx">
+            <column name="date"/>
+        </createIndex>
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+</databaseChangeLog>
