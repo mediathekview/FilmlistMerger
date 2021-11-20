@@ -4,26 +4,64 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet author="Nicklas Wiegandt" id="1">
-        <createTable tableName="filmdao">
-            <column name="sender" type="varchar_ignorecase">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+
+    <changeSet id="1637429057157-1" author="Nicklas Wiegandt">
+        <createTable tableName="film">
+            <column name="uuid" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_film"/>
             </column>
-            <column name="titel" type="varchar_ignorecase">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+            <column name="sender" type="VARCHAR(255)"/>
+            <column name="titel" type="VARCHAR(255)">
+                <constraints nullable="false"/>
             </column>
-            <column name="thema" type="varchar_ignorecase">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+            <column name="thema" type="VARCHAR(255)">
+                <constraints nullable="false"/>
             </column>
-            <column name="duration" type="varchar_ignorecase">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILMDAO"/>
+            <column name="duration" type="BIGINT">
+                <constraints nullable="false"/>
             </column>
-            <column name="neu" type="boolean"/>
+            <column name="time" type="DATETIME"/>
+            <column name="beschreibung" type="VARCHAR(255)"/>
+            <column name="website" type="VARCHAR(255)"/>
+            <column name="neu" type="BOOLEAN"/>
         </createTable>
-        <addPrimaryKey columnNames="sender,titel,thema,dauer" constraintName="PK_FILMDAO" tableName="filmdao"/>
-        <createIndex tableName="filmdao" indexName="websiteentrydao_date_idx">
-            <column name="date"/>
-        </createIndex>
-        <createSequence sequenceName="hibernate_sequence"/>
+
+        <createTable tableName="film_geo_locations">
+            <column name="film_uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="geo_locations" type="INT"/>
+        </createTable>
+
+        <createTable tableName="film_subtitles">
+            <column name="film_uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subtitles" type="VARCHAR(255)"/>
+        </createTable>
+
+        <createTable tableName="film_url">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_filmurl"/>
+            </column>
+            <column name="film_id" type="UUID"/>
+            <column name="url" type="VARCHAR(255)"/>
+            <column name="resolution" type="VARCHAR(255)"/>
+            <column name="file_size" type="BIGINT"/>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="sender, titel, thema, duration"
+                             constraintName="uc_film_sender_titel_thema_duration"
+                             tableName="film"/>
+        <addForeignKeyConstraint baseColumnNames="film_id" baseTableName="film_url"
+                                 constraintName="FK_FILMURL_ON_FILMID" referencedColumnNames="uuid"
+                                 referencedTableName="film"/>
+        <addForeignKeyConstraint baseColumnNames="film_uuid" baseTableName="film_geo_locations"
+                                 constraintName="fk_film_geolocations_on_film" referencedColumnNames="uuid"
+                                 referencedTableName="film"/>
+        <addForeignKeyConstraint baseColumnNames="film_uuid" baseTableName="film_subtitles"
+                                 constraintName="fk_film_subtitles_on_film" referencedColumnNames="uuid"
+                                 referencedTableName="film"/>
     </changeSet>
 </databaseChangeLog>

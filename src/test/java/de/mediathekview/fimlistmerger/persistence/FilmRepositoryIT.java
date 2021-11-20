@@ -25,10 +25,10 @@ class FilmRepositoryIT {
   @Transactional
   void saveAll_newFilms_filmsSavedToDatabase() throws MalformedURLException {
     // WHEN
-    filmRepository.saveAll(
-        FilmlistTestData.createFilme().stream().map(FilmDAO::new).collect(Collectors.toList()));
+    filmRepository.saveAllMergeIfExists(
+        FilmlistTestData.createFilme().stream().map(Film::new).collect(Collectors.toSet()));
 
     // THEN
-    assertThat(filmRepository.count()).isEqualTo(3);
+    assertThat(filmRepository.count()).isEqualTo(2);
   }
 }
