@@ -47,10 +47,9 @@ public class Film implements Serializable {
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> urls;
 
   @Id
-  /*@GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid")*/
   @Column
-  private UUID uuid;
+  @Builder.Default
+  private UUID uuid = UUID.randomUUID();
 
   @Column private LocalDateTime time;
 

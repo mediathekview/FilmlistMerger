@@ -44,7 +44,7 @@ class FilmRepositoryIT {
   @Transactional
   void save_newFilm_filmSavedToDatabase() {
     // WHEN
-    filmRepository.saveMergeIfExists(
+    Film filmToSave =
         Film.builder()
             .sender(Sender.ARTE_DE)
             .thema("FilmRepositoryIT")
@@ -53,9 +53,11 @@ class FilmRepositoryIT {
             .neu(true)
             .time(LocalDateTime.now())
             .duration(Duration.ofMinutes(45))
-            .build());
+            .build();
+    filmRepository.saveMergeIfExists(filmToSave);
 
     // THEN
-    assertThat(filmRepository.count()).isEqualTo(2);
+    assertThat(filmRepository.count()).isEqualTo(1);
+    assertThat(filmRepository.findById(filmToSave.getUuid())).isPresent();
   }
 }
