@@ -42,7 +42,28 @@ public class FilmUrl {
     this.fileSize = fileSize;
   }
 
-  enum Type {
+  @Override
+  public String toString() {
+    return getClass().getSimpleName()
+        + "("
+        + "id = "
+        + id
+        + ", "
+        + "url = "
+        + url
+        + ", "
+        + "resolution = "
+        + resolution
+        + ", "
+        + "fileSize = "
+        + fileSize
+        + ", "
+        + "type = "
+        + type
+        + ")";
+  }
+
+  public enum Type {
     FILM_URL,
     AUDIO_DESCRIPTION,
     SIGN_LANGUAGE

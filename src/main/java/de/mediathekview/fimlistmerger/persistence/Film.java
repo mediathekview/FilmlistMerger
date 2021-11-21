@@ -1,7 +1,6 @@
 package de.mediathekview.fimlistmerger.persistence;
 
 import de.mediathekview.mlib.daten.GeoLocations;
-import de.mediathekview.mlib.daten.Resolution;
 import de.mediathekview.mlib.daten.Sender;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -9,11 +8,12 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 @Table(name = "Film", indexes = {
         @Index(name = "idx_film_uuid", columnList = "uuid")
@@ -73,26 +73,6 @@ public class Film implements Serializable {
 
   @ElementCollection @Column private Set<String> subtitles;
 
-  public Film(de.mediathekview.mlib.daten.Film film) {
-    this.urls = convertFilmUrlMapToPersistenceFilmUrls(FilmUrl.Type.FILM_URL, film.getUrls());
-    this.uuid = film.getUuid();
-    this.sender = film.getSender();
-    this.titel=film.getTitel();
-    this.thema=film.getThema();
-    this.duration=film.getDuration();
-    this.time = film.getTime();
-    this.geoLocations = new ArrayList<>(film.getGeoLocations());
-    this.beschreibung = film.getBeschreibung();
-    this.website = film.getWebsite().map(URL::toString).orElse("");
-    this.neu = film.isNeu();
-    this.audioDescriptions =
-        convertFilmUrlMapToPersistenceFilmUrls(
-            FilmUrl.Type.AUDIO_DESCRIPTION, film.getAudioDescriptions());
-    this.signLanguages =
-        convertFilmUrlMapToPersistenceFilmUrls(FilmUrl.Type.SIGN_LANGUAGE, film.getSignLanguages());
-    this.subtitles = film.getSubtitles().stream().map(URL::toString).collect(Collectors.toSet());
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -108,16 +88,4 @@ public class Film implements Serializable {
     return Objects.hash(getSender(), getTitel(), getThema(), getDuration());
   }
 
-  private Set<FilmUrl> convertFilmUrlMapToPersistenceFilmUrls(
-      FilmUrl.Type type, Map<Resolution, de.mediathekview.mlib.daten.FilmUrl> map) {
-    return map.entrySet().stream()
-        .map(
-            entry ->
-                new FilmUrl(
-                    type,
-                    entry.getKey(),
-                    entry.getValue().getUrl().toString(),
-                    entry.getValue().getFileSize()))
-        .collect(Collectors.toSet());
-  }
 }

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static de.mediathekview.fimlistmerger.routes.ReadNewFilmlistFormatRoute.ROUTE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*"})
+@SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*", "spring.liquibase.enabled=false"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
 class ReadNewFilmlistFormatRouteTest {

@@ -1,10 +1,12 @@
 package de.mediathekview.fimlistmerger.persistence;
 
+import de.mediathekview.fimlistmerger.FilmPersistenceFilmMapper;
 import de.mediathekview.fimlistmerger.FilmlistMergerApplication;
 import de.mediathekview.fimlistmerger.FilmlistTestData;
 import de.mediathekview.mlib.daten.Sender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -33,7 +35,11 @@ class FilmRepositoryIT {
   void saveAll_newFilms_filmsSavedToDatabase() throws MalformedURLException {
     // WHEN
     filmRepository.saveAllMergeIfExists(
-        FilmlistTestData.createFilme().stream().map(Film::new).collect(Collectors.toSet()));
+        FilmlistTestData.createFilme().stream()
+            .map(
+                film ->
+                    Mappers.getMapper(FilmPersistenceFilmMapper.class).filmToPersistenceFilm(film))
+            .collect(Collectors.toSet()));
 
     // THEN
     assertThat(filmRepository.count()).isEqualTo(2);

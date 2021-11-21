@@ -21,7 +21,11 @@ import java.nio.file.StandardCopyOption;
 
 import static de.mediathekview.fimlistmerger.routes.InputFilesRoute.ROUTE_ID;
 
-@SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*"})
+@SpringBootTest(
+    properties = {
+      "camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*",
+      "spring.liquibase.enabled=false"
+    })
 @EnableRouteCoverage
 class InputFilesRouteTest {
   @TempDir File tempDir;

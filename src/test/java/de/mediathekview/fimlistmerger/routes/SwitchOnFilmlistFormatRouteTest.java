@@ -20,7 +20,11 @@ import java.nio.file.StandardCopyOption;
 import static de.mediathekview.fimlistmerger.routes.SwitchOnFilmlistFormatRoute.ROUTE_ID;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*"})
+@SpringBootTest(
+    properties = {
+      "camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*",
+      "spring.liquibase.enabled=false"
+    })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
 class SwitchOnFilmlistFormatRouteTest {

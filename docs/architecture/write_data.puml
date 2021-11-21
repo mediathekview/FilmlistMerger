@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:WriteConsolidatedFilmlistRoute;
+if (Which format to write?) then (Old format)
+    :WriteOldFilmlistFormatRoute;
+else (New format)
+    :WriteNewFilmlistFormatRoute;
+endif
+stop
+
+@enduml
