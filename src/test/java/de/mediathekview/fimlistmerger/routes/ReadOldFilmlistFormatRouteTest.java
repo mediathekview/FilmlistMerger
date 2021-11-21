@@ -54,7 +54,7 @@ class ReadOldFilmlistFormatRouteTest {
         ROUTE_ID,
         advice ->
             advice
-                .weaveById(ReadOldFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET)
+                .weaveById(ReadOldFilmlistFormatRoute.SINGLE_OLD_FORMAT_FILM_ROUTING_TARGET)
                 .replace()
                 .to(mockEndpoint));
   }

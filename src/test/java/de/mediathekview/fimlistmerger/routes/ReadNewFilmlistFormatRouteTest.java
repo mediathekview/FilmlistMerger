@@ -51,7 +51,7 @@ class ReadNewFilmlistFormatRouteTest {
       AdviceWith.adviceWith(
               camelContext,
               ROUTE_ID,
-              advice -> advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_FILM_ROUTING_TARGET).replace().to(mockEndpoint));
+              advice -> advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_NEW_FORMAT_FILM_ROUTING_TARGET).replace().to(mockEndpoint));
     }
 
   @Test
