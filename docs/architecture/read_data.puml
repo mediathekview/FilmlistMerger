@@ -4,18 +4,18 @@ skinparam conditionStyle diamond
 |Main|
 start
 :InputFilesRoute;
-:InputFileDetection;
+:SwitchOnFilmlistFormatRoute;
 split
     |Old format|
-    :Read old format;
+    :ReadOldFilmlistFormatRoute;
 split again
     |New format|
-    :Read new format;
+    :ReadNewFilmlistFormatRoute;
 split again
     |Unknown format|
     stop
 end split
 |Main|
-:Write to DB;
+:FilmToDatabaseTargetRoute;
 stop
 @enduml

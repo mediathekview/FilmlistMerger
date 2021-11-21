@@ -12,4 +12,6 @@ public interface FilmRepository extends CrudRepository<Film, UUID> {
 
   Optional<Film> findBySenderAndTitelIgnoreCaseAndThemaIgnoreCaseAndDuration(
       Sender sender, String titel, String thema, Duration duration);
+
+  <S extends Film> S saveMergeIfExists(S entity);
 }

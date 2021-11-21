@@ -1,0 +1,20 @@
+@startuml
+FilmlistMergerApplication -left- IntegrationFlow
+FilmlistMergerApplication -left- FileMessageToJobRequest
+
+FilmlistMergerApplication -down- OldFormatFlow
+OldFormatFlow -down- OldFormatStep
+OldFormatStep -down- OldFormatReader
+OldFormatStep -down- OldFormatMapperStep
+OldFormatStep -right- NewFormatDbWriter
+
+FilmlistMergerApplication -down- NewFormatFlow
+NewFormatFlow -down- NewFormatStep
+NewFormatStep -down- NewFormatReader
+NewFormatStep -left- NewFormatDbWriter
+
+FilmlistMergerApplication -right- WriteConsolidatedListStep
+WriteConsolidatedListStep -down- NewFormatDbReader
+WriteConsolidatedListStep -down- NewFormatWriter
+WriteConsolidatedListStep -down- OldFormatWriter
+@enduml
