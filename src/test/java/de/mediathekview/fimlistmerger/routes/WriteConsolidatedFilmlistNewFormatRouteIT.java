@@ -1,10 +1,8 @@
 package de.mediathekview.fimlistmerger.routes;
 
-import de.mediathekview.fimlistmerger.FilmPersistenceFilmMapper;
 import de.mediathekview.fimlistmerger.FilmlistMergerApplication;
 import de.mediathekview.fimlistmerger.persistence.Film;
 import de.mediathekview.fimlistmerger.persistence.FilmRepository;
-import de.mediathekview.mlib.daten.AbstractMediaResource;
 import de.mediathekview.mlib.daten.Filmlist;
 import de.mediathekview.mlib.daten.Sender;
 import org.apache.camel.*;
@@ -28,8 +26,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static de.mediathekview.fimlistmerger.routes.WriteConsolidatedFilmlistRoute.ROUTE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,18 +36,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(
     properties = {
       "camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*",
-      "filmlistmerger.output-format=OLD"
+      "filmlistmerger.output-format=NEW"
     })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
-class WriteConsolidatedFilmlistRouteIT {
+class WriteConsolidatedFilmlistNewFormatRouteIT {
   @Inject CamelContext camelContext;
 
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;
 
   @Inject FilmRepository filmRepository;
-  @Inject FilmPersistenceFilmMapper filmPersistenceFilmMapper;
 
   @Produce("direct:producer")
   private ProducerTemplate template;
@@ -63,7 +58,7 @@ class WriteConsolidatedFilmlistRouteIT {
         ROUTE_ID,
         advice -> {
           advice
-              .weaveById(WriteConsolidatedFilmlistRoute.OLD_FILM_FORMAT_ROUTING_TARGET)
+              .weaveById(WriteConsolidatedFilmlistRoute.NEW_FILM_FORMAT_ROUTING_TARGET)
               .replace()
               .to(mockEndpoint);
         });
@@ -71,42 +66,8 @@ class WriteConsolidatedFilmlistRouteIT {
 
   @Test
   @Transactional
-  @DisplayName("Tests if a film is getting saved to the database")
-  void createConsolidateFilmlist_testFilmsOldFormat_filmlist() throws Exception {
-    // given
-    mockEndpoint.expectedMessageCount(1);
-
-    Set<Film> testFilms = createTestPersistenceFilms();
-    filmRepository.saveAllMergeIfExists(testFilms);
-
-    // when
-    template.sendBody(WriteConsolidatedFilmlistRoute.ROUTE_FROM, null);
-
-    // then
-    mockEndpoint.assertIsSatisfied();
-    Optional<Filmlist> optionalFilmlist =
-        mockEndpoint.getExchanges().stream()
-            .map(Exchange::getIn)
-            .map(message -> message.getBody(Filmlist.class))
-            .findFirst();
-
-    assertThat(optionalFilmlist).isPresent();
-    Filmlist filmlist = optionalFilmlist.get();
-    assertThat(filmlist.getFilms()).hasSize(testFilms.size());
-    assertThat(filmlist.getLivestreams()).isEmpty();
-    assertThat(filmlist.getPodcasts()).isEmpty();
-
-    assertThat(filmlist.getFilms())
-        .containsExactlyInAnyOrderEntriesOf(
-            testFilms.stream()
-                .map(filmPersistenceFilmMapper::persistenceFilmToFilm)
-                .collect(Collectors.toMap(AbstractMediaResource::getUuid, Function.identity())));
-  }
-
-  @Test
-  @Transactional
-  @DisplayName("Tests if the old format writer is called when filmlist format is set to old format")
-  void switchFilmlistFormat_oldFormat_oldFormatWriterIsCalled() throws Exception {
+  @DisplayName("Tests if the new format writer is called when filmlist format is set to new format")
+  void switchFilmlistFormat_newFormat_newFormatWriterIsCalled() throws Exception {
     // given
     mockEndpoint.expectedMessageCount(1);
 
