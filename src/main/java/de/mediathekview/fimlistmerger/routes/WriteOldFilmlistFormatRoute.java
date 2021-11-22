@@ -9,5 +9,7 @@ public class WriteOldFilmlistFormatRoute extends RouteBuilder {
   public static final String ROUTE_FROM = "direct:writeOldFilmlistFormat";
 
   @Override
-  public void configure() throws Exception {}
+  public void configure() throws Exception {
+    from(ROUTE_FROM).routeId(ROUTE_ID);
+  }
 }

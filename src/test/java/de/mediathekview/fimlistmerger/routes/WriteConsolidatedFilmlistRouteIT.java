@@ -40,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(
     properties = {
       "camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*",
-      "filmlistmerger.output-format=OLD"
+      "filmlistmerger.output.format=OLD"
     })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage

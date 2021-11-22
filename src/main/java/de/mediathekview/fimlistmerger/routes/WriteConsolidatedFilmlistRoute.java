@@ -24,7 +24,7 @@ public class WriteConsolidatedFilmlistRoute extends RouteBuilder {
   public WriteConsolidatedFilmlistRoute(
       FilmRepository filmRepository,
       PersistenceFilmsToFilmlistProcessor persistenceFilmsToFilmlistProcessor,
-      @Value("${filmlistmerger.output-format}") Format filmlistFormat) {
+      @Value("${filmlistmerger.output.format}") Format filmlistFormat) {
     this.filmRepository = filmRepository;
     this.persistenceFilmsToFilmlistProcessor = persistenceFilmsToFilmlistProcessor;
     this.filmlistFormat = filmlistFormat;
