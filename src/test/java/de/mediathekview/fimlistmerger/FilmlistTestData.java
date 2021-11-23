@@ -33,9 +33,9 @@ public final class FilmlistTestData {
             Duration.of(10, ChronoUnit.MINUTES));
     testFilm1.setWebsite(new URL("http://www.example.org/"));
     testFilm1.setBeschreibung("Test beschreibung.");
-    testFilm1.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42L));
-    testFilm1.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42L));
-    testFilm1.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42L));
+    testFilm1.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 2048L));
+    testFilm1.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 2048L));
+    testFilm1.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 2048L));
 
     final Film testFilm2 =
         new Film(
@@ -47,23 +47,23 @@ public final class FilmlistTestData {
             Duration.of(10, ChronoUnit.MINUTES));
     testFilm2.setWebsite(new URL("http://www.example.org/"));
     testFilm2.setBeschreibung("Test beschreibung.");
-    testFilm2.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 42L));
-    testFilm2.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 42L));
-    testFilm2.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 42L));
+    testFilm2.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 2048L));
+    testFilm2.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 2048L));
+    testFilm2.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 2048L));
 
     final Film testFilm3 =
         new Film(
             UUID.fromString("4fd93b56-df3d-4182-ae18-04cf207e224e"),
             Sender.ARD,
             "TestTitel",
-            "TestThema",
-            LocalDateTime.parse("2017-01-01T23:55:00"),
+            "TestThema2",
+            LocalDateTime.parse("2018-01-01T23:54:00"),
             Duration.of(10, ChronoUnit.MINUTES));
-    testFilm3.setWebsite(new URL("http://www.example.org/2"));
+    testFilm3.setWebsite(new URL("http://www.example.org/"));
     testFilm3.setBeschreibung("Test beschreibung.");
-    testFilm3.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein2.mp4"), 42L));
-    testFilm3.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test2.mp4"), 42L));
-    testFilm3.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd2.mp4"), 42L));
+    testFilm3.addUrl(Resolution.SMALL, new FilmUrl(new URL("http://example.org/klein.mp4"), 2048L));
+    testFilm3.addUrl(Resolution.NORMAL, new FilmUrl(new URL("http://example.org/Test.mp4"), 2048L));
+    testFilm3.addUrl(Resolution.HD, new FilmUrl(new URL("http://example.org/hd.mp4"), 2048L));
 
     films.add(testFilm1);
     films.add(testFilm2);
