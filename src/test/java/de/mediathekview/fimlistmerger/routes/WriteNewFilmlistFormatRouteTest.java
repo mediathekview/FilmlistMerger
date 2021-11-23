@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
     })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
+@SuppressWarnings("unused")
 class WriteNewFilmlistFormatRouteTest {
   @Inject CamelContext camelContext;
 
@@ -65,7 +66,7 @@ class WriteNewFilmlistFormatRouteTest {
 
     // then
     mockEndpoint.assertIsSatisfied();
-    assertThat(awaitedFilmlistPath.toFile())
-        .hasSameTextualContentAs(Paths.get("target/WriteNewFilmlistFormatRouteTest.json").toFile());
+    assertThat(Paths.get("target/WriteNewFilmlistFormatRouteTest.json").toFile())
+        .hasSameTextualContentAs(awaitedFilmlistPath.toFile());
   }
 }
