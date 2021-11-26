@@ -13,8 +13,8 @@ import java.io.File;
 public class SwitchOnFilmlistFormatRoute extends RouteBuilder {
   public static final String ROUTE_ID = "SwitchOnFilmlistFormatRoute";
   public static final String DIRECT_SWITCH_ON_FILMLIST_FORMAT = "direct:switchOnFilmlistFormat";
-  public static final String NEW_FILM_FORMAT_ROUTING_TARGET = "newFilmFormatRoutingTarget";
-  public static final String OLD_FILM_FORMAT_ROUTING_TARGET = "oldFilmFormatRoutingTarget";
+  public static final String NEW_FILM_FORMAT_ROUTING_TARGET = "writeNewFilmFormatRoutingTarget";
+  public static final String OLD_FILM_FORMAT_ROUTING_TARGET = "writeOldFilmFormatRoutingTarget";
 
   @Override
   public void configure() {
