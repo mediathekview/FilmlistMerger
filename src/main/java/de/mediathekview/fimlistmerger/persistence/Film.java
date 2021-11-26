@@ -42,7 +42,7 @@ public class Film implements Serializable {
    private Duration duration;
 
   @Column
-  @OneToMany(mappedBy = "film")
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
   @Where(clause = "type='FILM_URL'")
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> urls;
 
@@ -53,7 +53,7 @@ public class Film implements Serializable {
 
   @Column private LocalDateTime time;
 
-  @ElementCollection @Column private List<GeoLocations> geoLocations;
+  @ElementCollection(fetch = FetchType.EAGER) @Column private List<GeoLocations> geoLocations;
 
   @Column private String beschreibung;
 
@@ -62,16 +62,16 @@ public class Film implements Serializable {
   @Column private boolean neu;
 
   @Column
-  @OneToMany(mappedBy = "film")
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
   @Where(clause = "type='AUDIO_DESCRIPTION'")
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> audioDescriptions;
 
   @Column
-  @OneToMany(mappedBy = "film")
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
   @Where(clause = "type='SIGN_LANGUAGE'")
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> signLanguages;
 
-  @ElementCollection @Column private Set<String> subtitles;
+  @ElementCollection(fetch = FetchType.EAGER) @Column private Set<String> subtitles;
 
   @Override
   public boolean equals(Object o) {
