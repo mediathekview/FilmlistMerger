@@ -16,7 +16,7 @@ import static de.mediathekview.fimlistmerger.Format.*;
 @Component
 public class InputFileFormatDetection {
   private static final Logger LOG = LoggerFactory.getLogger(InputFileFormatDetection.class);
-  private static final String OLD_FORMAT_HEAD_PATTERN = "\\{\\W*\"Filmliste\":\\s\\[.*";
+  private static final String OLD_FORMAT_HEAD_PATTERN = "\\{\\W*\"Filmliste\":\\s*\\[.*";
   private static final String NEW_FORMAT_HEAD_PATTERN = "\\{\\W*\"films\":\\s*\\{.*";
   private static final String JSON_FILE_SUFFIX = ".json";
   private static final int FILE_HEAD_LINE_LIMIT = 2;
