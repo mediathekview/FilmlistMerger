@@ -55,7 +55,7 @@ public class Film implements Serializable {
 
   @ElementCollection(fetch = FetchType.EAGER) @Column private List<GeoLocations> geoLocations;
 
-  @Column private String beschreibung;
+  @Column(columnDefinition = "TEXT") private String beschreibung;
 
   @Column private String website;
 
