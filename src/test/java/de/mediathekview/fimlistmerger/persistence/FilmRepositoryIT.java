@@ -30,7 +30,7 @@ class FilmRepositoryIT {
   @Inject FilmRepository filmRepository;
 
   @Test
-  @DisplayName("Save all test films - two are saved")
+  @DisplayName("Save all test films - three are saved")
   @Transactional
   void saveAll_newFilms_filmsSavedToDatabase() throws MalformedURLException {
     // WHEN
@@ -42,7 +42,7 @@ class FilmRepositoryIT {
             .collect(Collectors.toSet()));
 
     // THEN
-    assertThat(filmRepository.count()).isEqualTo(2);
+    assertThat(filmRepository.count()).isEqualTo(3);
   }
 
   @Test
