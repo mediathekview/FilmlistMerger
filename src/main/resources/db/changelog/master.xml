@@ -65,8 +65,6 @@
                                  referencedTableName="film"/>
     </changeSet>
     <changeSet id="1638615827583-1" author="Nicklas Wiegandt">
-        <update tableName="film">
-            <column name="beschreibung" type="text"/>
-        </update>
+        <modifyDataType tableName="film" columnName="beschreibung" newDataType="text" />
     </changeSet>
 </databaseChangeLog>
