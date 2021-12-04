@@ -22,7 +22,7 @@ public class FilmUrl {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column private String url;
+  @Column(length = 400) private String url;
 
   @Column
   @Enumerated(EnumType.STRING)
