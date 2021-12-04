@@ -57,7 +57,7 @@ public class Film implements Serializable {
 
   @Column(columnDefinition = "TEXT") private String beschreibung;
 
-  @Column private String website;
+  @Column(length = 400) private String website;
 
   @Column private boolean neu;
 

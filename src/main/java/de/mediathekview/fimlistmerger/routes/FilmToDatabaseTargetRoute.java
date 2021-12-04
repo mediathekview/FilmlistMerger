@@ -1,5 +1,6 @@
 package de.mediathekview.fimlistmerger.routes;
 
+import de.mediathekview.fimlistmerger.Metrics;
 import de.mediathekview.fimlistmerger.persistence.FilmRepository;
 import de.mediathekview.fimlistmerger.processors.FilmToPersistenceFilmProcessor;
 import org.apache.camel.builder.RouteBuilder;
@@ -26,6 +27,7 @@ public class FilmToDatabaseTargetRoute extends RouteBuilder {
     from(ROUTE_FROM)
         .routeId(ROUTE_ID)
         .process(filmToPersistenceFilmProcessor)
-        .bean(filmRepository, "saveMergeIfExists");
+        .bean(filmRepository, "saveMergeIfExists")
+        .to(Metrics.COUNTER_FILMS_SAVED.toString());
   }
 }
