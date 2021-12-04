@@ -18,7 +18,7 @@ import java.util.UUID;
 @Table(name = "Film", indexes = {
         @Index(name = "idx_film_uuid", columnList = "uuid")
 }, uniqueConstraints = {
-        @UniqueConstraint(name = "uc_film_sender_titel_thema", columnNames = {"sender", "titel", "thema"})
+        @UniqueConstraint(name = "uc_film_sender_titel_thema_duration", columnNames = {"sender", "titel", "thema", "duration"})
 })
 @Entity
 @NoArgsConstructor

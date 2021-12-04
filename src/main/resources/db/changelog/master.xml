@@ -65,6 +65,10 @@
                                  referencedTableName="film"/>
     </changeSet>
     <changeSet id="1638615827583-1" author="Nicklas Wiegandt">
-        <modifyDataType tableName="film" columnName="beschreibung" newDataType="text" />
+        <modifyDataType tableName="film" columnName="beschreibung" newDataType="text"/>
     </changeSet>
+    <changeSet id="1638618073246-1" author="Nicklas Wiegandt">
+        <modifyDataType columnName="url" newDataType="VARCHAR(400)" tableName="film_url"/>
+    </changeSet>
+
 </databaseChangeLog>
