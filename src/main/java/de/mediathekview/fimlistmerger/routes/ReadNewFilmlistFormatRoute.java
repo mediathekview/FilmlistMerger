@@ -1,6 +1,7 @@
 package de.mediathekview.fimlistmerger.routes;
 
 import de.mediathekview.mlib.daten.Film;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +20,12 @@ public class ReadNewFilmlistFormatRoute extends RouteBuilder {
         .routeId(ROUTE_ID)
         .split()
         .jsonpathWriteAsString("$.films[*]")
+        .streaming().parallelProcessing()
         .id(READ_FILMS_FROM_NEW_FILMLIST_JSON_PATH)
-        .log("Old body: ${body}")
+        .log(LoggingLevel.DEBUG,"Old body: ${body}")
         .unmarshal()
         .json(Film.class)
-        .log("New body: ${body}")
+        .log(LoggingLevel.DEBUG,"New body: ${body}")
         .to(FilmToDatabaseTargetRoute.ROUTE_FROM)
         .id(SINGLE_NEW_FORMAT_FILM_ROUTING_TARGET);
   }
