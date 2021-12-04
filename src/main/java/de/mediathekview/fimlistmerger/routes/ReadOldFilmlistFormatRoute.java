@@ -1,6 +1,7 @@
 package de.mediathekview.fimlistmerger.routes;
 
 import de.mediathekview.fimlistmerger.FilmlistSplitterBean;
+import de.mediathekview.fimlistmerger.Metrics;
 import de.mediathekview.fimlistmerger.dataformat.oldfilmlist.OldFilmlistDataFormat;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
@@ -22,6 +23,7 @@ public class ReadOldFilmlistFormatRoute extends RouteBuilder {
         .method(FilmlistSplitterBean.class)
         .streaming().parallelProcessing()
         .log(LoggingLevel.DEBUG,"Old filmlist film body: ${body}")
+        .to(Metrics.COUNTER_READ_FILMS_OLD_FORMAT.toString())
         .to(FilmToDatabaseTargetRoute.ROUTE_FROM)
         .id(SINGLE_OLD_FORMAT_FILM_ROUTING_TARGET);
   }

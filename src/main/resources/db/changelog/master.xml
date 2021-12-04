@@ -70,5 +70,8 @@
     <changeSet id="1638618073246-1" author="Nicklas Wiegandt">
         <modifyDataType columnName="url" newDataType="VARCHAR(400)" tableName="film_url"/>
     </changeSet>
+    <changeSet id="1638621207459-1" author="Nicklas Wiegandt">
+        <modifyDataType columnName="website" newDataType="VARCHAR(400)" tableName="film"/>
+    </changeSet>
 
 </databaseChangeLog>

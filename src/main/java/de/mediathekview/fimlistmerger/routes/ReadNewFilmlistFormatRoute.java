@@ -1,5 +1,6 @@
 package de.mediathekview.fimlistmerger.routes;
 
+import de.mediathekview.fimlistmerger.Metrics;
 import de.mediathekview.mlib.daten.Film;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
@@ -23,6 +24,7 @@ public class ReadNewFilmlistFormatRoute extends RouteBuilder {
         .streaming().parallelProcessing()
         .id(READ_FILMS_FROM_NEW_FILMLIST_JSON_PATH)
         .log(LoggingLevel.DEBUG,"Old body: ${body}")
+        .to(Metrics.COUNTER_READ_FILMS_NEW_FORMAT.toString())
         .unmarshal()
         .json(Film.class)
         .log(LoggingLevel.DEBUG,"New body: ${body}")
