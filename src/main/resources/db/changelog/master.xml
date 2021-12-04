@@ -64,4 +64,9 @@
                                  constraintName="fk_film_subtitles_on_film" referencedColumnNames="uuid"
                                  referencedTableName="film"/>
     </changeSet>
+    <changeSet id="1638615827583-1" author="Nicklas Wiegandt">
+        <update tableName="Film">
+            <column name="beschreibung" type="text"/>
+        </update>
+    </changeSet>
 </databaseChangeLog>
