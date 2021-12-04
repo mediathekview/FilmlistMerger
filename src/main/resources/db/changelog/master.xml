@@ -65,7 +65,7 @@
                                  referencedTableName="film"/>
     </changeSet>
     <changeSet id="1638615827583-1" author="Nicklas Wiegandt">
-        <update tableName="Film">
+        <update tableName="film">
             <column name="beschreibung" type="text"/>
         </update>
     </changeSet>
