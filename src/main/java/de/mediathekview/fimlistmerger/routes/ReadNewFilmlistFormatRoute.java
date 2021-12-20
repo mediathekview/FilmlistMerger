@@ -19,15 +19,19 @@ public class ReadNewFilmlistFormatRoute extends RouteBuilder {
   public void configure() {
     from(DIRECT_SPLIT_NEW_FILMLIST_TO_FILMS)
         .routeId(ROUTE_ID)
+        .log(
+            LoggingLevel.INFO,
+            "Reading the new fimlist format file with json path, splitting & importing")
         .split()
         .jsonpathWriteAsString("$.films[*]")
-        .streaming().parallelProcessing()
+        .streaming()
+        .parallelProcessing()
         .id(READ_FILMS_FROM_NEW_FILMLIST_JSON_PATH)
-        .log(LoggingLevel.DEBUG,"Old body: ${body}")
+        .log(LoggingLevel.DEBUG, "Old body: ${body}")
         .to(Metrics.COUNTER_READ_FILMS_NEW_FORMAT.toString())
         .unmarshal()
         .json(Film.class)
-        .log(LoggingLevel.DEBUG,"New body: ${body}")
+        .log(LoggingLevel.DEBUG, "New body: ${body}")
         .to(FilmToDatabaseTargetRoute.ROUTE_FROM)
         .id(SINGLE_NEW_FORMAT_FILM_ROUTING_TARGET);
   }

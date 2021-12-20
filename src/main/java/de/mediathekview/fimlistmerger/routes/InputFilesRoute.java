@@ -16,11 +16,12 @@ public class InputFilesRoute extends RouteBuilder {
   public void configure() {
     from("file://input?charset=utf-8")
         .routeId(ROUTE_ID)
-        .log(LoggingLevel.DEBUG,"Found file ${header.CamelFileName}")
+        .log(LoggingLevel.INFO,"Found file ${header.CamelFileName}")
         .to(SwitchOnFilmlistFormatRoute.DIRECT_SWITCH_ON_FILMLIST_FORMAT)
         .id(SWITCH_ON_FILMLIST_FORMAT_ROUTING_TARGET)
         .onCompletion()
         .onCompleteOnly()
+        .log(LoggingLevel.INFO, "Completed reading files, writing consolidated filmlist now.")
         .to(WriteConsolidatedFilmlistRoute.ROUTE_FROM)
         .id(WRITE_CONSOLIDATED_FILMLIST_ROUTING_TARGET)
         .end();
