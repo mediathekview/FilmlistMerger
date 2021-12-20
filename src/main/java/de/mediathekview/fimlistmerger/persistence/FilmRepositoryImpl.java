@@ -2,6 +2,7 @@ package de.mediathekview.fimlistmerger.persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +28,8 @@ public class FilmRepositoryImpl {
     return filmRepository.save(entity);
   }
 
-  private <S extends Film> void updateUuidIfFilmsAlreadyExists(Collection<S> entities) {
+  @Transactional(readOnly = true)
+  public <S extends Film> void updateUuidIfFilmsAlreadyExists(Collection<S> entities) {
     entities.forEach(this::updateUuidIfFilmAlreadyExists);
   }
 
