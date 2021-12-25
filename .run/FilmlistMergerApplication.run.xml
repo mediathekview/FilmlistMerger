@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="FilmlistMergerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="FilmlistMerger" />
+    <module name="filmlistmerger" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.mediathekview.fimlistmerger.FilmlistMergerApplication" />
     <option name="VM_PARAMETERS" value="-Xmx8g" />
     <option name="ALTERNATIVE_JRE_PATH" />
