@@ -2,6 +2,7 @@ package de.mediathekview.fimlistmerger.routes;
 
 import de.mediathekview.fimlistmerger.FilmlistMergerApplication;
 import de.mediathekview.fimlistmerger.persistence.Film;
+import de.mediathekview.fimlistmerger.persistence.FilmPersistenceService;
 import de.mediathekview.fimlistmerger.persistence.FilmRepository;
 import de.mediathekview.mlib.daten.Filmlist;
 import de.mediathekview.mlib.daten.Sender;
@@ -47,6 +48,8 @@ class WriteConsolidatedFilmlistNewFormatRouteIT {
   MockEndpoint mockEndpoint;
 
   @Inject FilmRepository filmRepository;
+  @Inject
+  FilmPersistenceService filmPersistenceService;
 
   @Produce("direct:producer")
   private ProducerTemplate template;
@@ -72,7 +75,7 @@ class WriteConsolidatedFilmlistNewFormatRouteIT {
     mockEndpoint.expectedMessageCount(1);
 
     Set<Film> testFilms = createTestPersistenceFilms();
-    filmRepository.saveAllMergeIfExists(testFilms);
+    filmPersistenceService.saveAllMergeIfExists(testFilms);
 
     // when
     template.sendBody(WriteConsolidatedFilmlistRoute.ROUTE_FROM, null);

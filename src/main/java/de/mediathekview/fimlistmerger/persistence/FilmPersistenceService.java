@@ -1,21 +1,16 @@
 package de.mediathekview.fimlistmerger.persistence;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.Collection;
 import java.util.stream.StreamSupport;
 
-@Component
-@SuppressWarnings("unused")
-public class FilmRepositoryImpl {
-
-  @PersistenceContext private EntityManager entityManager;
-
-  @Autowired private FilmRepository filmRepository;
+@Service
+@RequiredArgsConstructor
+public class FilmPersistenceService {
+  private final FilmRepository filmRepository;
 
   public <S extends Film> Iterable<S> saveAllMergeIfExists(Iterable<S> entities) {
     Collection<S> modifiedEntities = StreamSupport.stream(entities.spliterator(), true).toList();

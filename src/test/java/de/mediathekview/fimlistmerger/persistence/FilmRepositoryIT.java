@@ -28,13 +28,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FilmRepositoryIT {
 
   @Inject FilmRepository filmRepository;
+  @Inject FilmPersistenceService filmPersistenceService;
 
   @Test
   @DisplayName("Save all test films - three are saved")
   @Transactional
   void saveAll_newFilms_filmsSavedToDatabase() throws MalformedURLException {
     // WHEN
-    filmRepository.saveAllMergeIfExists(
+    filmPersistenceService.saveAllMergeIfExists(
         FilmlistTestData.createFilme().stream()
             .map(
                 film ->
@@ -60,7 +61,7 @@ class FilmRepositoryIT {
             .time(LocalDateTime.now())
             .duration(Duration.ofMinutes(45))
             .build();
-    filmRepository.saveMergeIfExists(filmToSave);
+    filmPersistenceService.saveMergeIfExists(filmToSave);
 
     // THEN
     assertThat(filmRepository.count()).isEqualTo(1);
