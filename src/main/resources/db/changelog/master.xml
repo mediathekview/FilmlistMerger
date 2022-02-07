@@ -11,7 +11,7 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_film"/>
             </column>
             <column name="sender" type="VARCHAR(255)"/>
-            <column name="titel" type="VARCHAR(255)">
+            <column name="titel" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="thema" type="VARCHAR(255)">
@@ -21,7 +21,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="time" type="DATETIME"/>
-            <column name="beschreibung" type="VARCHAR(255)"/>
+            <column name="beschreibung" type="text"/>
             <column name="website" type="VARCHAR(255)"/>
             <column name="neu" type="BOOLEAN"/>
         </createTable>

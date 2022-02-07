@@ -19,11 +19,14 @@ public class ReadOldFilmlistFormatRoute extends RouteBuilder {
     from(DIRECT_READ_OLD_FILMLIST)
         .routeId(ROUTE_ID)
         .unmarshal(new OldFilmlistDataFormat())
-            .log(LoggingLevel.INFO, "Finished reading old filmlist, now splitting & importing.")
+        .log(
+            LoggingLevel.INFO,
+            "Finished reading old filmlist with ${body.getFilms().keySet().size()} entries, now splitting & importing.")
         .split()
         .method(FilmlistSplitterBean.class)
-        .streaming().parallelProcessing()
-        .log(LoggingLevel.DEBUG,"Old filmlist film body: ${body}")
+        .streaming()
+        .parallelProcessing()
+        .log(LoggingLevel.DEBUG, "Old filmlist film body: ${body}")
         .to(Metrics.COUNTER_READ_FILMS_OLD_FORMAT.toString())
         .to(FilmToDatabaseTargetRoute.ROUTE_FROM)
         .id(SINGLE_OLD_FORMAT_FILM_ROUTING_TARGET);

@@ -36,9 +36,11 @@ public class WriteConsolidatedFilmlistRoute extends RouteBuilder {
 
     from(ROUTE_FROM)
         .routeId(ROUTE_ID)
+        .log(LoggingLevel.INFO, "Reading all films from the DB...")
         .setBody()
         .method(filmRepository, "findAll")
         .process(persistenceFilmsToFilmlistProcessor)
+        .log(LoggingLevel.INFO, "... finished reading from DB")
         .id(WRITE_CONSOLIDATED_FILMLIST_PERSISTENCE_FILMS_TO_FILMLIST_PROCESSOR)
         .log(LoggingLevel.INFO, "Deciding in which format to write the consolidated fimlist...")
         .choice()
@@ -51,6 +53,9 @@ public class WriteConsolidatedFilmlistRoute extends RouteBuilder {
         .to(WriteNewFilmlistFormatRoute.ROUTE_FROM)
         .id(NEW_FILM_FORMAT_ROUTING_TARGET)
         .otherwise()
-        .throwException(new UnknownFilmlistFormatException());
+        .throwException(new UnknownFilmlistFormatException())
+        .end()
+        .onCompletion()
+        .log(LoggingLevel.INFO, "Finished writing. Waiting for new files to import...");
   }
 }
