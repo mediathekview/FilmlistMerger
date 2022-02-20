@@ -4,11 +4,13 @@ import de.mediathekview.fimlistmerger.FilmPersistenceFilmMapper;
 import de.mediathekview.fimlistmerger.FilmlistMergerApplication;
 import de.mediathekview.fimlistmerger.FilmlistTestData;
 import de.mediathekview.mlib.daten.Sender;
+import org.apache.camel.test.spring.junit5.EnableRouteCoverage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -19,12 +21,14 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import static de.mediathekview.fimlistmerger.routes.FilmToDatabaseTargetRoute.ROUTE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("integration-test")
 @ContextConfiguration(classes = FilmlistMergerApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class FilmRepositoryIT {
 
   @Inject FilmRepository filmRepository;

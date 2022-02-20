@@ -51,7 +51,6 @@ class WriteConsolidatedFilmlistRouteIT {
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;
 
-  @Inject FilmRepository filmRepository;
   @Inject
   FilmPersistenceService filmPersistenceService;
   @Inject FilmPersistenceFilmMapper filmPersistenceFilmMapper;
@@ -74,8 +73,8 @@ class WriteConsolidatedFilmlistRouteIT {
 
   @Test
   @Transactional
-  @DisplayName("Tests if a film is getting saved to the database")
-  void createConsolidateFilmlist_testFilmsOldFormat_filmlist() throws Exception {
+  @DisplayName("Tests if the old format writer is called when filmlist format is set to old format")
+  void switchFilmlistFormat_oldFormat_oldFormatWriterIsCalled() throws Exception {
     // given
     mockEndpoint.expectedMessageCount(1);
 
@@ -106,33 +105,6 @@ class WriteConsolidatedFilmlistRouteIT {
                 .collect(Collectors.toMap(AbstractMediaResource::getUuid, Function.identity())));
   }
 
-  @Test
-  @Transactional
-  @DisplayName("Tests if the old format writer is called when filmlist format is set to old format")
-  void switchFilmlistFormat_oldFormat_oldFormatWriterIsCalled() throws Exception {
-    // given
-    mockEndpoint.expectedMessageCount(1);
-
-    Set<Film> testFilms = createTestPersistenceFilms();
-    filmPersistenceService.saveAllMergeIfExists(testFilms);
-
-    // when
-    template.sendBody(WriteConsolidatedFilmlistRoute.ROUTE_FROM, null);
-
-    // then
-    mockEndpoint.assertIsSatisfied();
-    Optional<Filmlist> optionalFilmlist =
-        mockEndpoint.getExchanges().stream()
-            .map(Exchange::getIn)
-            .map(message -> message.getBody(Filmlist.class))
-            .findFirst();
-
-    assertThat(optionalFilmlist).isPresent();
-    Filmlist filmlist = optionalFilmlist.get();
-    assertThat(filmlist.getFilms()).hasSize(testFilms.size());
-    assertThat(filmlist.getLivestreams()).isEmpty();
-    assertThat(filmlist.getPodcasts()).isEmpty();
-  }
 
   @NotNull
   private Set<Film> createTestPersistenceFilms() {

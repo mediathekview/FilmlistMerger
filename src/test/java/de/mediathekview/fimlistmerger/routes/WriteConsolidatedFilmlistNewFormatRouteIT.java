@@ -47,7 +47,6 @@ class WriteConsolidatedFilmlistNewFormatRouteIT {
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;
 
-  @Inject FilmRepository filmRepository;
   @Inject
   FilmPersistenceService filmPersistenceService;
 
