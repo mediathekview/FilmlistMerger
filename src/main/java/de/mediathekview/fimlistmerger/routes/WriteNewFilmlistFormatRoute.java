@@ -13,7 +13,7 @@ public class WriteNewFilmlistFormatRoute extends RouteBuilder {
   public static final String ROUTE_FROM = "direct:writeNewFilmlistFormat";
   private final Path outputFilePath;
 
-  WriteNewFilmlistFormatRoute(@Value("${filmlistmerger.output.file}") Path outputFilePath) {
+  WriteNewFilmlistFormatRoute(@Value("${filmlistmerger.output.file:output/filmliste.json}") Path outputFilePath) {
     this.outputFilePath = outputFilePath;
   }
 

@@ -14,7 +14,7 @@ public class WriteOldFilmlistFormatRoute extends RouteBuilder {
 
   private final Path outputFilePath;
 
-  WriteOldFilmlistFormatRoute(@Value("${filmlistmerger.output.file}") Path outputFilePath) {
+  WriteOldFilmlistFormatRoute(@Value("${filmlistmerger.output.file:output/filmliste.json}") Path outputFilePath) {
     this.outputFilePath = outputFilePath;
   }
 
