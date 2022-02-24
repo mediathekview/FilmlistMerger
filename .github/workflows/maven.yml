@@ -27,4 +27,4 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Push container
-      run: docker push mediathekview/filmlistmerger
+      run: docker push -a mediathekview/filmlistmerger
