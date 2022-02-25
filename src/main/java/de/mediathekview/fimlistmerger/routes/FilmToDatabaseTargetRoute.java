@@ -2,7 +2,6 @@ package de.mediathekview.fimlistmerger.routes;
 
 import de.mediathekview.fimlistmerger.Metrics;
 import de.mediathekview.fimlistmerger.persistence.FilmPersistenceService;
-import de.mediathekview.fimlistmerger.persistence.FilmRepository;
 import de.mediathekview.fimlistmerger.processors.FilmToPersistenceFilmProcessor;
 import lombok.RequiredArgsConstructor;
 import org.apache.camel.builder.RouteBuilder;
@@ -21,10 +20,9 @@ public class FilmToDatabaseTargetRoute extends RouteBuilder {
   public void configure() {
 
     from(ROUTE_FROM)
-            .routeId(ROUTE_ID)
-            .process(filmToPersistenceFilmProcessor)
-            .bean(filmPersistenceService, "saveMergeIfExists")
-            .to(Metrics.COUNTER_FILMS_SAVED.toString());
+        .routeId(ROUTE_ID)
+        .process(filmToPersistenceFilmProcessor)
+        .bean(filmPersistenceService, "saveMergeIfExists")
+        .to(Metrics.COUNTER_FILMS_SAVED.toString());
   }
 }
-
