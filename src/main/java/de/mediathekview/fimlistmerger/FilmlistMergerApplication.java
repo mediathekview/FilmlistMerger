@@ -19,28 +19,36 @@ public class FilmlistMergerApplication {
   }
 
   @Bean
-  public static BeanFactoryPostProcessor dependsOnPostProcessor() {
+  public static BeanFactoryPostProcessor dependsOnPostProcessor(
+      @Value("${filmlistmerger.database.startup.enabled}") String startupValidationEnabled) {
     return bf -> {
-      // Let beans that need the database depend on the DatabaseStartupValidator
-      // like the JPA EntityManagerFactory or Flyway
-      String[] liquibase = bf.getBeanNamesForType(Liquibase.class);
-      Stream.of(liquibase)
-          .map(bf::getBeanDefinition)
-          .forEach(it -> it.setDependsOn("databaseStartupValidator"));
+      if (Boolean.parseBoolean(startupValidationEnabled)) {
+        // Let beans that need the database depend on the DatabaseStartupValidator
+        // like the JPA EntityManagerFactory or Flyway
+        String[] liquibase = bf.getBeanNamesForType(Liquibase.class);
+        Stream.of(liquibase)
+            .map(bf::getBeanDefinition)
+            .forEach(it -> it.setDependsOn("databaseStartupValidator"));
 
-      String[] jpa = bf.getBeanNamesForType(EntityManagerFactory.class);
-      Stream.of(jpa)
-          .map(bf::getBeanDefinition)
-          .forEach(it -> it.setDependsOn("databaseStartupValidator"));
+        String[] jpa = bf.getBeanNamesForType(EntityManagerFactory.class);
+        Stream.of(jpa)
+            .map(bf::getBeanDefinition)
+            .forEach(it -> it.setDependsOn("databaseStartupValidator"));
+      }
     };
   }
 
   @Bean
   public DatabaseStartupValidator databaseStartupValidator(
-      DataSource dataSource, @Value("${filmlistmerger.database.startup.timeout}") String timeout) {
-    var dsv = new DatabaseStartupValidator();
-    dsv.setDataSource(dataSource);
-    dsv.setTimeout(Integer.parseInt(timeout));
-    return dsv;
+      DataSource dataSource,
+      @Value("${filmlistmerger.database.startup.timeout}") String timeout,
+      @Value("${filmlistmerger.database.startup.enabled}") String startupValidationEnabled) {
+    if (Boolean.parseBoolean(startupValidationEnabled)) {
+      var dsv = new DatabaseStartupValidator();
+      dsv.setDataSource(dataSource);
+      dsv.setTimeout(Integer.parseInt(timeout));
+      return dsv;
+    }
+    return null;
   }
 }
