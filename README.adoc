@@ -1,6 +1,11 @@
 = Filmlist Merger
 
+:toc:
+:toc-placement!:
+
 Uses a database to merge multiple film lists into one.
+
+toc::[]
 
 == Settings
 
@@ -63,16 +68,178 @@ Uses a database to merge multiple film lists into one.
 
 === Docker compose
 
+.Source: link:docker-compose.yml[]
 [source,yaml]
 ----
- include::docker-compose.yml[]
+services:
+  database:
+    image: postgres
+    command:
+    - -N 515
+    environment:
+      POSTGRES_DB: mv_filmlistmerger
+      POSTGRES_USER: mediathekview
+      POSTGRES_PASSWORD: mediathekview
+    shm_size: 4GB
+
+  fimlistmerger:
+    image: mediathekview/filmlistmerger:0.0.1-SNAPSHOT
+    depends_on:
+      - database
+    links:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/mv_filmlistmerger?useServerPrepStmts=true&cachePrepStmts=true&rewriteBatchedStatements=true
+      SPRING_DATASOURCE_USERNAME: mediathekview
+      SPRING_DATASOURCE_PASSWORD: mediathekview
+      FILMLISTMERGER_INPUT_PATH: input
+      FILMLISTMERGER_OUTPUT_FORMAT: NEW
+      FILMLISTMERGER_OUTPUT_FILE: output/filmlist.json
+    volumes:
+      - $PWD/input:/workspace/input:rw
+      - $PWD/output:/workspace/output:rw
 ----
 
 === Kubernetes
 
+.Source: link:kubernetes.yml[]
 [source,yaml]
 ----
- include::kubernetes.yml[]
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mediathekview
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: filmlistmerger-inputfiles-claim
+  namespace: mediathekview
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 3Gi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: filmlistmerger-database-claim
+  namespace: mediathekview
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: mediathekview
+  name: filmlist-download
+  labels:
+    app: filmlistmerger
+spec:
+  schedule: "30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: filmlist-downloader
+              image: mediathekview/filmlistdownloader:v1.0.1
+              env:
+                - name: OUTPUT_PATH
+                  value: /output
+              volumeMounts:
+                - mountPath: /output
+                  name: filmlist-input
+              imagePullPolicy: Always
+          restartPolicy: OnFailure
+          volumes:
+            - name: filmlist-input
+              persistentVolumeClaim:
+                claimName: filmlistmerger-inputfiles-claim
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: mediathekview
+  name: filmlistmerger
+  labels:
+    app: filmlistmerger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filmlistmerger
+  template:
+    metadata:
+      labels:
+        app: filmlistmerger
+    spec:
+      containers:
+        - name: filmlistmerger-database
+          image: postgres
+          args:
+           - -c
+           - max_connections=515
+          env:
+            - name: POSTGRES_DB
+              value: mv_filmlistmerger
+            - name: POSTGRES_USER
+              value: mediathekview
+            - name: POSTGRES_PASSWORD
+              value: mediathekview
+            - name: PGDATA
+              value: /data
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: shared-memory
+            - mountPath: /data
+              name: filmlist-database
+        - name: filmlistmerger
+          image: mediathekview/filmlistmerger:0.0.1-SNAPSHOT
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://localhost:5432/mv_filmlistmerger?useServerPrepStmts=true&cachePrepStmts=true&rewriteBatchedStatements=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: mediathekview
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: mediathekview
+            - name: FILMLISTMERGER_INPUT_PATH
+              value: input
+            - name: FILMLISTMERGER_OUTPUT_FORMAT
+              value: NEW
+            - name: FILMLISTMERGER_OUTPUT_FILE
+              value: output/filmlist.json
+            - name: FILMLISTMERGER_DATABASE_STARTUP_TIMEOUT
+              value: '60'
+            - name: FILMLISTMERGER_DATABASE_STARTUP_ENABLED
+              value: 'true'
+          volumeMounts:
+            - name: filmlist-input
+              mountPath: /workspace/input
+            - name: filmlist-output
+              mountPath: /workspace/output
+          imagePullPolicy: Always
+      volumes:
+        - name: filmlist-input
+          persistentVolumeClaim:
+            claimName: filmlistmerger-inputfiles-claim
+        - name: filmlist-database
+          persistentVolumeClaim:
+            claimName: filmlistmerger-database-claim
+        - name: filmlist-output
+          emptyDir: { }
+        - name: shared-memory
+          emptyDir: { }
 ----
 
 == Deployment View
