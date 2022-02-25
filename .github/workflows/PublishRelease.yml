@@ -22,7 +22,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: application-jar
-        path: target/filmlistmerger-*.jar
+        path: "target/filmlistmerger-*.jar"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
