@@ -1,6 +1,79 @@
 = Filmlist Merger
 
-Merges Film Lists
+Uses a database to merge multiple film lists into one.
+
+== Settings
+
+|===
+|Spring Boot setting | Environment variable | Default value | Description
+
+|spring.datasource.url
+|SPRING_DATASOURCE_URL
+|jdbc:postgresql://localhost:5432/filmlistmerger?useServerPrepStmts=true&cachePrepStmts=true&rewriteBatchedStatements=true
+|The JDCB url to connect to the database including the database name
+
+|spring.datasource.username
+|SPRING_DATASOURCE_USERNAME
+|filmlistmerger
+|The database user username
+
+|spring.datasource.password
+|SPRING_DATASOURCE_PASSWORD
+|filmlistmerger
+|The database user passwort
+
+|filmlistmerger.input.path
+|FILMLISTMERGER_INPUT_PATH
+|input
+|The path to the input folder from which the film list will be read
+
+|filmlistmerger.output.format
+|FILMLISTMERGER_OUTPUT_FORMAT
+|NEW
+|The format of the merged film list. Can be `NEW` or `OLD`
+
+|filmlistmerger.output.file
+|FILMLISTMERGER_OUTPUT_FILE
+|output/filmlist.json
+|The path where the merged film list should be written to including the file name.
+
+|filmlistmerger.database.startup.enabled
+|FILMLISTMERGER_DATABASE_STARTUP_ENABLED
+|true
+|Waits the timeout of `filmlistmerger.database.startup.timeout` in seconds for the database to startup when `true`.
+
+|filmlistmerger.database.startup.timeout
+|FILMLISTMERGER_DATABASE_STARTUP_TIMEOUT
+|10
+|A timeout in seconds to wait for the database to startup. Only when `filmlistmerger.database.startup.enabled` is true.
+
+|===
+
+== How to run
+
+=== Docker
+
+1. Start a postgres Database like this: +
+`docker run --network="host" -p 5432:5432 --env POSTGRES_DB=filmlistmerger --env POSTGRES_USER=filmlistmerger --env POSTGRES_PASSWORD=filmlistmerger --name filmlistmerger-db --shm-size 4GB postgres -c max_connections=515`
+
+2. Create a folder for your input film lists and one for the merged output
+
+3. Start the application: +
+`docker run --network="host" -v $PWD/input:/workspace/input:rw -v $PWD/output:/workspace/output:rw --env SPRING_DATASOURCE_URL="jdbc:postgresql://localhost:5432/filmlistmerger?useServerPrepStmts=true&cachePrepStmts=true&rewriteBatchedStatements=true" --name filmlistmerger mediathekview/filmlistmerger:0.0.1-SNAPSHOT`
+
+=== Docker compose
+
+[source,yaml]
+----
+ include::docker-compose.yml[]
+----
+
+=== Kubernetes
+
+[source,yaml]
+----
+ include::kubernetes.yml[]
+----
 
 == Deployment View
 

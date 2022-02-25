@@ -1,0 +1,27 @@
+services:
+  database:
+    image: postgres
+    command:
+    - -N 515
+    environment:
+      POSTGRES_DB: mv_filmlistmerger
+      POSTGRES_USER: mediathekview
+      POSTGRES_PASSWORD: mediathekview
+    shm_size: 4GB
+  
+  fimlistmerger:
+    image: mediathekview/filmlistmerger:0.0.1-SNAPSHOT
+    depends_on:
+      - database
+    links:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/mv_filmlistmerger?useServerPrepStmts=true&cachePrepStmts=true&rewriteBatchedStatements=true
+      SPRING_DATASOURCE_USERNAME: mediathekview
+      SPRING_DATASOURCE_PASSWORD: mediathekview
+      FILMLISTMERGER_INPUT_PATH: input
+      FILMLISTMERGER_OUTPUT_FORMAT: NEW
+      FILMLISTMERGER_OUTPUT_FILE: output/filmlist.json
+    volumes:
+      - $PWD/input:/workspace/input:rw
+      - $PWD/output:/workspace/output:rw
