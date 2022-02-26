@@ -22,13 +22,17 @@ public class ReadNewFilmlistFormatRoute extends RouteBuilder {
         .log(
             LoggingLevel.INFO,
             "Reading the new fimlist format file with json path, splitting & importing")
+        .to(Metrics.TIMER_READ_FILMS_NEW_FORMAT_START.toString())
+        .onCompletion()
+          .to(Metrics.TIMER_READ_FILMS_NEW_FORMAT_STOP.toString())
+        .end()
         .split()
         .jsonpathWriteAsString("$.films[*]")
         .streaming()
         .parallelProcessing()
         .id(READ_FILMS_FROM_NEW_FILMLIST_JSON_PATH)
         .log(LoggingLevel.DEBUG, "Old body: ${body}")
-        .to(Metrics.COUNTER_READ_FILMS_NEW_FORMAT.toString())
+        .to(Metrics.COUNTER_READ_FILMS_NEW_FORMAT_MAX.toString())
         .unmarshal()
         .json(Film.class)
         .log(LoggingLevel.DEBUG, "New body: ${body}")

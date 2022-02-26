@@ -21,8 +21,12 @@ public class FilmToDatabaseTargetRoute extends RouteBuilder {
 
     from(ROUTE_FROM)
         .routeId(ROUTE_ID)
+        .to(Metrics.TIMER_WRITE_FILM_START.toString())
+        .onCompletion()
+        .to(Metrics.TIMER_WRITE_FILM_STOP.toString())
+        .end()
         .process(filmToPersistenceFilmProcessor)
         .bean(filmPersistenceService, "saveMergeIfExists")
-        .to(Metrics.COUNTER_FILMS_SAVED.toString());
+        .to(Metrics.COUNTER_FILMS_SAVED_CURRENT.toString());
   }
 }
