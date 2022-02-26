@@ -2,4 +2,4 @@
 
 * [ ] Read blocklist and remove blocked films, maybe mark in DB as blocked?
 * [ ] Check DB for valid entries regularly and set disable invalid ones.
-Remove invalid ones after x tries.
+Remove invalid ones after x tries. => Own service

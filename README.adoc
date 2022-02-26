@@ -52,6 +52,31 @@ toc::[]
 |10
 |A timeout in seconds to wait for the database to startup. Only when `filmlistmerger.database.startup.enabled` is true.
 
+|management.metrics.export.influx.enabled
+|MANAGEMENT_METRICS_EXPORT_INFLUX_ENABLED
+|true
+|Sends the metrics to a configured InfluxDB when `true`
+
+|management.metrics.export.influx.bucket
+|MANAGEMENT_METRICS_EXPORT_INFLUX_BUCKET
+|filmlistmerger
+|The InfluxDB bucket name to use
+
+|management.metrics.export.influx.org
+|MANAGEMENT_METRICS_EXPORT_INFLUX_ORG
+|mediathekview
+|The InfluxDB organisation
+
+|management.metrics.export.influx.token
+|MANAGEMENT_METRICS_EXPORT_INFLUX_TOKEN
+|
+|The InfluxDB authentication token
+
+|management.metrics.export.influx.uri
+|MANAGEMENT_METRICS_EXPORT_INFLUX_URI
+|http://localhost:8086
+|The InfluxDB URI
+
 |===
 
 == How to run
