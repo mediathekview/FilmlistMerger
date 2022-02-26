@@ -120,9 +120,32 @@ services:
       FILMLISTMERGER_INPUT_PATH: input
       FILMLISTMERGER_OUTPUT_FORMAT: NEW
       FILMLISTMERGER_OUTPUT_FILE: output/filmlist.json
+      MANAGEMENT_METRICS_EXPORT_INFLUX_ENABLED: 'true'
+      MANAGEMENT_METRICS_EXPORT_INFLUX_BUCKET: filmlistmerger
+      MANAGEMENT_METRICS_EXPORT_INFLUX_ORG: mediathekview
+      MANAGEMENT_METRICS_EXPORT_INFLUX_TOKEN: filmlistmerger
+      MANAGEMENT_METRICS_EXPORT_INFLUX_URI: http://influx:8086
     volumes:
       - $PWD/input:/workspace/input:rw
       - $PWD/output:/workspace/output:rw
+      -
+  influx:
+    container_name: influx
+    image: influxdb:alpine
+    ports:
+      - 8086:8086
+    environment:
+      DOCKER_INFLUXDB_INIT_USERNAME: filmlistmerger
+      DOCKER_INFLUXDB_INIT_PASSWORD: filmlistmerger
+      DOCKER_INFLUXDB_INIT_ORG: mediathekview
+      DOCKER_INFLUXDB_INIT_BUCKET: filmlistmerger
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: filmlistmerger
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
 ----
 
 === Kubernetes
@@ -163,6 +186,20 @@ spec:
       storage: 10Gi
   storageClassName: local-path
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: filmlistmerger-metrics-grafana-claim
+  namespace: mediathekview
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -191,6 +228,68 @@ spec:
             - name: filmlist-input
               persistentVolumeClaim:
                 claimName: filmlistmerger-inputfiles-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: filmlistmerger-metrics
+  namespace: mediathekview
+
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+    - name: http
+      protocol: TCP
+      port: 8086
+  selector:
+    app: metrics
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: mediathekview
+  name: filmlistmerger-metrics
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metrics
+  template:
+    metadata:
+      labels:
+        app: metrics
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana-pv
+        - name: influx
+          image: influxdb:alpine
+          ports:
+            - containerPort: 8086
+          env:
+            - name: DOCKER_INFLUXDB_INIT_USERNAME
+              value: filmlistmerger
+            - name: DOCKER_INFLUXDB_INIT_PASSWORD
+              value: filmlistmerger
+            - name: DOCKER_INFLUXDB_INIT_ORG
+              value: mediathekview
+            - name: DOCKER_INFLUXDB_INIT_BUCKET
+              value: filmlistmerger
+            - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+              value: filmlistmerger
+      volumes:
+        - name: grafana-pv
+          persistentVolumeClaim:
+            claimName: filmlistmerger-metrics-grafana-claim
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -248,6 +347,16 @@ spec:
               value: '60'
             - name: FILMLISTMERGER_DATABASE_STARTUP_ENABLED
               value: 'true'
+            - name: MANAGEMENT_METRICS_EXPORT_INFLUX_ENABLED
+              value: 'true'
+            - name: MANAGEMENT_METRICS_EXPORT_INFLUX_BUCKET
+              value: filmlistmerger
+            - name: MANAGEMENT_METRICS_EXPORT_INFLUX_ORG
+              value: mediathekview
+            - name: MANAGEMENT_METRICS_EXPORT_INFLUX_TOKEN
+              value: filmlistmerger
+            - name: MANAGEMENT_METRICS_EXPORT_INFLUX_URI
+              value: http://filmlistmerger-metrics:8086
           volumeMounts:
             - name: filmlist-input
               mountPath: /workspace/input
@@ -265,6 +374,22 @@ spec:
           emptyDir: { }
         - name: shared-memory
           emptyDir: { }
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: filmlistmerger-metrics-ingress
+  namespace: mediathekview
+
+spec:
+  rules:
+    - host: metrics.filmlistmerger.mediathekview.de
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: filmlistmerger-metrics
+              servicePort: 3000
 ----
 
 == Deployment View

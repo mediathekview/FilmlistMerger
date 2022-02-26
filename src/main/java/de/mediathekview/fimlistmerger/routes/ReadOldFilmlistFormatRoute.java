@@ -30,7 +30,6 @@ public class ReadOldFilmlistFormatRoute extends RouteBuilder {
         .setHeader(
             MicrometerConstants.HEADER_COUNTER_INCREMENT,
             simple("${body.getFilms().keySet().size()}"))
-        .choice()
         .to(Metrics.COUNTER_READ_FILMS_OLD_FORMAT_MAX.toString())
         .split()
         .method(FilmlistSplitterBean.class)
