@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FilmPersistenceService {
   private final FilmRepository filmRepository;
 
