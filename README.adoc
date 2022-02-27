@@ -135,10 +135,12 @@ services:
     ports:
       - 8086:8086
     environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME: filmlistmerger
       DOCKER_INFLUXDB_INIT_PASSWORD: filmlistmerger
       DOCKER_INFLUXDB_INIT_ORG: mediathekview
       DOCKER_INFLUXDB_INIT_BUCKET: filmlistmerger
+      DOCKER_INFLUXDB_INIT_RETENTION: 1w
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: filmlistmerger
 
   grafana:
@@ -237,10 +239,10 @@ metadata:
 
 spec:
   ports:
-    - name: http
+    - name: grafana
       protocol: TCP
       port: 3000
-    - name: http
+    - name: influxdb
       protocol: TCP
       port: 8086
   selector:
@@ -276,6 +278,8 @@ spec:
           ports:
             - containerPort: 8086
           env:
+            - name: DOCKER_INFLUXDB_INIT_MODE
+              value: setup
             - name: DOCKER_INFLUXDB_INIT_USERNAME
               value: filmlistmerger
             - name: DOCKER_INFLUXDB_INIT_PASSWORD
@@ -284,6 +288,8 @@ spec:
               value: mediathekview
             - name: DOCKER_INFLUXDB_INIT_BUCKET
               value: filmlistmerger
+            - name : DOCKER_INFLUXDB_INIT_RETENTION
+              value: 1w
             - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
               value: filmlistmerger
       volumes:
@@ -337,6 +343,8 @@ spec:
               value: mediathekview
             - name: SPRING_DATASOURCE_PASSWORD
               value: mediathekview
+            - name: LOGGING_LEVEL_ROOT
+              value: INFO
             - name: FILMLISTMERGER_INPUT_PATH
               value: input
             - name: FILMLISTMERGER_OUTPUT_FORMAT
