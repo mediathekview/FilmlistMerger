@@ -17,9 +17,7 @@
             <column name="thema" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="duration" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
+            <column name="duration" type="BIGINT"/>
             <column name="time" type="DATETIME"/>
             <column name="beschreibung" type="text"/>
             <column name="website" type="VARCHAR(255)"/>

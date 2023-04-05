@@ -2,20 +2,21 @@ package de.mediathekview.fimlistmerger.persistence;
 
 import de.mediathekview.mlib.daten.GeoLocations;
 import de.mediathekview.mlib.daten.Sender;
-import lombok.*;
-import org.hibernate.annotations.Where;
-
-import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.*;
+import lombok.*;
+import lombok.Builder.Default;
+import org.hibernate.annotations.Where;
 
-@Table(name = "Film", indexes = {
+@Table(name = "film", indexes = {
         @Index(name = "idx_film_uuid", columnList = "uuid")
 }, uniqueConstraints = {
         @UniqueConstraint(name = "uc_film_sender_titel_thema_duration", columnNames = {"sender", "titel", "thema", "duration"})
@@ -38,13 +39,14 @@ public class Film implements Serializable {
   @Column(nullable = false)
    private String thema;
 
-  @Column(nullable = false)
+  @Column
    private Duration duration;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @Where(clause = "type='FILM_URL'")
-  private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> urls;
+  @Default
+  private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> urls = new HashSet<>();
 
   @Id
   @Column
@@ -62,14 +64,16 @@ public class Film implements Serializable {
   @Column private boolean neu;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @Where(clause = "type='AUDIO_DESCRIPTION'")
-  private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> audioDescriptions;
+  @Default
+  private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> audioDescriptions = new HashSet<>();
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @Where(clause = "type='SIGN_LANGUAGE'")
-  private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> signLanguages;
+  @Default
+  private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> signLanguages = new HashSet<>();
 
   @ElementCollection(fetch = FetchType.EAGER) @Column private Set<String> subtitles;
 

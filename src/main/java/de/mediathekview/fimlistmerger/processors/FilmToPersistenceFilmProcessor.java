@@ -16,11 +16,14 @@ public class FilmToPersistenceFilmProcessor implements Processor {
 
   @Override
   public void process(Exchange exchange) {
+    var incoming = exchange.getIn();
     exchange
         .getIn()
         .setBody(
-            filmPersistenceFilmMapper.filmToPersistenceFilm(
-                exchange.getIn().getBody(de.mediathekview.mlib.daten.Film.class)),
+            incoming.getBody() instanceof de.mediathekview.mlib.daten.Film
+                ? filmPersistenceFilmMapper.filmToPersistenceFilm(
+                    incoming.getBody(de.mediathekview.mlib.daten.Film.class))
+                : incoming.getBody(Film.class),
             Film.class);
   }
 }

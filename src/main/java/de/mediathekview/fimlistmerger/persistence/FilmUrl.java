@@ -1,13 +1,13 @@
 package de.mediathekview.fimlistmerger.persistence;
 
 import de.mediathekview.mlib.daten.Resolution;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-
+@Table(name = "film_url")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,12 +15,12 @@ import javax.persistence.*;
 @Setter
 public class FilmUrl {
   @ManyToOne
-  @JoinColumn(name = "filmId", referencedColumnName = "uuid")
+  @JoinColumn(name = "film_id", referencedColumnName = "uuid")
   private Film film;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(length = 400) private String url;
 

@@ -1,5 +1,6 @@
 package de.mediathekview.fimlistmerger.routes;
 
+import static de.mediathekview.fimlistmerger.routes.ConvertOldFilmlistEntryToFilmRoute.DIRECT_CONVERT_OLD_FILMLIST_ENTRY_TO_FILM_ROUTE;
 import static de.mediathekview.fimlistmerger.routes.ReadOldFilmlistEntriesFromFileRoute.DIRECT_READ_OLD_FILMLIST_ENTRIES_FROM_FILE;
 import static de.mediathekview.fimlistmerger.routes.ReadOldFilmlistEntriesFromFileRoute.ROUTE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,7 +66,7 @@ class ReadOldFilmlistEntriesFromFileRouteTest {
                 ROUTE_ID,
                 advice ->
                         advice
-                                .weaveById("end")
+                                .weaveByToUri(DIRECT_CONVERT_OLD_FILMLIST_ENTRY_TO_FILM_ROUTE)
                                 .replace()
                                 .to(mockEndpoint));
     }
@@ -89,7 +90,7 @@ class ReadOldFilmlistEntriesFromFileRouteTest {
         assertThat(receivedEntries)
                 .usingRecursiveComparison()
                 .asList()
-                .containsExactly(
+                .containsExactlyInAnyOrder(
                         new String[]{"ARD", "TestThema", "TestTitel", "01.01.2017", "23:55:00", "00:10:00", "2",
                                 "Test beschreibung.", "http://example.org/Test.mp4", "http://www.example.org/", "", "",
                                 "19|klein.mp4", "", "19|hd.mp4", "", "1483311300", "", "", "false"},

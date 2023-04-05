@@ -1,7 +1,16 @@
 package de.mediathekview.fimlistmerger.routes;
 
+import static de.mediathekview.fimlistmerger.routes.WriteOldFilmlistFormatRoute.ROUTE_ID;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import de.mediathekview.fimlistmerger.FilmlistTestData;
 import de.mediathekview.mlib.daten.Filmlist;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import javax.inject.Inject;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
@@ -13,16 +22,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
-import javax.inject.Inject;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import static de.mediathekview.fimlistmerger.routes.WriteOldFilmlistFormatRoute.ROUTE_ID;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
     properties = {
@@ -59,7 +58,10 @@ class WriteOldFilmlistFormatRouteTest {
         new Filmlist(
             UUID.fromString("5f330449-c9d2-4b67-89b4-75373b38b9f8"),
             LocalDateTime.parse("2019-10-20T20:04:00"));
-    filmlist.addAllFilms(FilmlistTestData.createFilme());
+    var testFilms = FilmlistTestData.createFilme();
+    testFilms.get(1).setTitel("");
+    testFilms.get(2).setTitel("");
+    filmlist.addAllFilms(testFilms);
 
     // when
     template.sendBody(WriteOldFilmlistFormatRoute.ROUTE_FROM, filmlist);

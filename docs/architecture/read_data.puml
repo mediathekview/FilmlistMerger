@@ -7,7 +7,8 @@ start
 :SwitchOnFilmlistFormatRoute;
 split
     |Old format|
-    :ReadOldFilmlistFormatRoute;
+    :ReadOldFilmlistEntriesFromFileRoute;
+    :ConvertOldFilmlistEntryToFilmRoute;
 split again
     |New format|
     :ReadNewFilmlistFormatRoute;
