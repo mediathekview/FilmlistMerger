@@ -36,11 +36,11 @@ public class ReadOldFilmlistFormatRoute extends RouteBuilder {
             simple("${body.getFilms().keySet().size()}"))
         .to(Metrics.COUNTER_READ_FILMS_OLD_FORMAT_MAX.toString())
         .process(filmlistSplitterBean)
-        .log(LoggingLevel.INFO, "Old filmlist make unique: ${body.size()}")
+        .log(LoggingLevel.INFO, "Unique body size: ${body.size()}")
         .split(body())
         .streaming()
         .parallelProcessing()
-        //.log(LoggingLevel.INFO, "Old filmlist aggregated: ${body.size()}")
+        //.log(LoggingLevel.INFO, "Split into groups: ${body.size()}")
         .to(FilmToDatabaseTargetRoute.ROUTE_FROM)
         .id(SINGLE_OLD_FORMAT_FILM_ROUTING_TARGET);
   }

@@ -42,7 +42,7 @@ public class Film implements Serializable {
    private Duration duration;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
+  @OneToMany(mappedBy = "film", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
   @Where(clause = "type='FILM_URL'")
   public Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> urls;
 
@@ -53,25 +53,26 @@ public class Film implements Serializable {
 
   @Column private LocalDateTime time;
 
-  @ElementCollection(fetch = FetchType.EAGER) @Column private List<GeoLocations> geoLocations;
+  @ElementCollection(fetch = FetchType.LAZY) @Column private List<GeoLocations> geoLocations;
 
   @Column(columnDefinition = "TEXT") private String beschreibung;
 
-  @Column(length = 400) private String website;
+  @Column
+  private String website;
 
   @Column private boolean neu;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "film", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
   @Where(clause = "type='AUDIO_DESCRIPTION'")
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> audioDescriptions;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+  @OneToMany(mappedBy = "film", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
   @Where(clause = "type='SIGN_LANGUAGE'")
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> signLanguages;
 
-  @ElementCollection(fetch = FetchType.EAGER) @Column private Set<String> subtitles;
+  @ElementCollection(fetch = FetchType.LAZY) @Column private Set<String> subtitles;
 
   @Override
   public boolean equals(Object o) {

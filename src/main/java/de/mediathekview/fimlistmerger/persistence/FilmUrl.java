@@ -30,7 +30,8 @@ public class FilmUrl {
   @SequenceGenerator(name = "seqGen", sequenceName = "film_urls_id_seq", allocationSize = 100)
   private long id;
 
-  @Column(length = 400) private String url;
+  @Column
+  private String url;
 
   @Column
   @Enumerated(EnumType.STRING)

@@ -52,7 +52,8 @@ public class FilmlistSplitterBean implements Processor {
   
   public <T> List<List<T>> partition(List<List<T>> inputList, int partitions){
       if (PARTITION_SIZE <= 0 || partitions <= 0) {
-          return inputList;
+        LOG.info("no paritioned active");
+        return inputList;
       }
       
       List<List<T>> result = new ArrayList<>(partitions);
@@ -62,7 +63,7 @@ public class FilmlistSplitterBean implements Processor {
       for(int i = 0; i < inputList.size(); i++)
           result.get(i % partitions).add(inputList.get(i).get(0));
 
-      LOG.info("paritioned into " + result.size() + " groups" );
+      LOG.info("paritioned into " + result.size() + " group(s)" );
       
       return result;
   }
