@@ -9,8 +9,10 @@ public enum Metrics {
     TIMER_READ_FILMS_OLD_FORMAT_STOP(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.read.format.old?action=stop&tags=app=filmlistmerger"),
     TIMER_READ_FILMS_NEW_FORMAT_START(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.read.format.new?action=start&tags=app=filmlistmerger"),
     TIMER_READ_FILMS_NEW_FORMAT_STOP(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.read.format.new?action=stop&tags=app=filmlistmerger"),
-    TIMER_WRITE_MERGED_FILMS_START(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.write.merged?action=start&tags=app=filmlistmerger"),
-    TIMER_WRITE_MERGED_FILMS_STOP(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.write.merged?action=stop&tags=app=filmlistmerger"),
+    //TIMER_WRITE_MERGED_FILMS_START(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.write.merged?action=start&tags=app=filmlistmerger"),
+    //TIMER_WRITE_MERGED_FILMS_STOP(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.write.merged?action=stop&tags=app=filmlistmerger"),
+    TIMER_WRITE_MERGED_FILMS_START(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.writeTime.merged?action=start&tags=app=filmlistmerger"),
+    TIMER_WRITE_MERGED_FILMS_STOP(Types.METRIC_TYPE_TIMER,"filmlistmerger.films.writeTime.merged?action=stop&tags=app=filmlistmerger"),
     TIMER_WRITE_FILM_START(Types.METRIC_TYPE_TIMER,"filmlistmerger.film.write?action=start&tags=app=filmlistmerger"),
     TIMER_WRITE_FILM_STOP(Types.METRIC_TYPE_TIMER,"filmlistmerger.film.write?action=stop&tags=app=filmlistmerger");
 

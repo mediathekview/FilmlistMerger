@@ -6,6 +6,7 @@ import de.mediathekview.fimlistmerger.dataformat.oldfilmlist.OldFilmlistDataForm
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.micrometer.MicrometerConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,9 @@ public class ReadOldFilmlistFormatRoute extends RouteBuilder {
   public static final String SINGLE_OLD_FORMAT_FILM_ROUTING_TARGET =
       "singleOldFormatFilmRoutingTarget";
 
+  @Autowired
+  public FilmlistSplitterBean filmlistSplitterBean;
+  
   @Override
   public void configure() {
     from(DIRECT_READ_OLD_FILMLIST)
@@ -31,11 +35,12 @@ public class ReadOldFilmlistFormatRoute extends RouteBuilder {
             MicrometerConstants.HEADER_COUNTER_INCREMENT,
             simple("${body.getFilms().keySet().size()}"))
         .to(Metrics.COUNTER_READ_FILMS_OLD_FORMAT_MAX.toString())
-        .split()
-        .method(FilmlistSplitterBean.class)
+        .process(filmlistSplitterBean)
+        .log(LoggingLevel.INFO, "Old filmlist make unique: ${body.size()}")
+        .split(body())
         .streaming()
         .parallelProcessing()
-        .log(LoggingLevel.DEBUG, "Old filmlist film body: ${body}")
+        //.log(LoggingLevel.INFO, "Old filmlist aggregated: ${body.size()}")
         .to(FilmToDatabaseTargetRoute.ROUTE_FROM)
         .id(SINGLE_OLD_FORMAT_FILM_ROUTING_TARGET);
   }

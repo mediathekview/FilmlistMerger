@@ -23,7 +23,8 @@ public class OldFilmlistDataFormat extends ServiceSupport implements DataFormat,
 
   @Override
   public Object unmarshal(Exchange exchange, InputStream stream) {
-    return new FilmlistOldFormatReader().read(stream).orElse(new Filmlist());
+    // TODO fix mlib dev version and remove inject
+    return new FilmlistOldFormatReader2().read(stream).orElse(new Filmlist());
   }
 
   @Override

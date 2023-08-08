@@ -84,7 +84,7 @@ toc::[]
 === Docker
 
 1. Start a postgres Database like this: +
-`docker run --network="host" -p 5432:5432 --env POSTGRES_DB=filmlistmerger --env POSTGRES_USER=filmlistmerger --env POSTGRES_PASSWORD=filmlistmerger --name filmlistmerger-db --shm-size 4GB postgres -c max_connections=515`
+`docker run -p 5432:5432 --env POSTGRES_DB=filmlistmerger --env POSTGRES_USER=filmlistmerger --env POSTGRES_PASSWORD=filmlistmerger --name filmlistmerger-db --shm-size 4GB postgres -c max_connections=515`
 
 2. Create a folder for your input film lists and one for the merged output
 

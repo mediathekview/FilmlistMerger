@@ -21,7 +21,7 @@ public class InputFilesRoute extends RouteBuilder {
 
   @Override
   public void configure() {
-    from("file://" + inputFolderPath + "?charset=utf-8")
+    from("file://" + inputFolderPath + "?charset=utf-8&include=.*.json")
         .routeId(ROUTE_ID)
         .log(LoggingLevel.INFO, "Found file ${header.CamelFileName}")
         .to(SwitchOnFilmlistFormatRoute.DIRECT_SWITCH_ON_FILMLIST_FORMAT)

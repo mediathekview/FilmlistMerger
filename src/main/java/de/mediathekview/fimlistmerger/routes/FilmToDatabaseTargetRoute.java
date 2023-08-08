@@ -26,7 +26,7 @@ public class FilmToDatabaseTargetRoute extends RouteBuilder {
         .to(Metrics.TIMER_WRITE_FILM_STOP.toString())
         .end()
         .process(filmToPersistenceFilmProcessor)
-        .bean(filmPersistenceService, "saveMergeIfExists")
+        .bean(filmPersistenceService, "saveAllMergeIfExists")
         .to(Metrics.COUNTER_FILMS_SAVED_CURRENT.toString());
   }
 }

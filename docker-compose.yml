@@ -30,7 +30,7 @@ services:
     volumes:
       - $PWD/input:/workspace/input:rw
       - $PWD/output:/workspace/output:rw
-      -
+
   influx:
     container_name: influx
     image: influxdb:alpine

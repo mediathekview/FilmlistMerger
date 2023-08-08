@@ -42,9 +42,9 @@ public class Film implements Serializable {
    private Duration duration;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
   @Where(clause = "type='FILM_URL'")
-  private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> urls;
+  public Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> urls;
 
   @Id
   @Column
@@ -62,12 +62,12 @@ public class Film implements Serializable {
   @Column private boolean neu;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
   @Where(clause = "type='AUDIO_DESCRIPTION'")
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> audioDescriptions;
 
   @Column
-  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
   @Where(clause = "type='SIGN_LANGUAGE'")
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> signLanguages;
 
