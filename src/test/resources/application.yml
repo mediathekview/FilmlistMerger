@@ -1,0 +1,55 @@
+camel:
+    component:
+        metrics:
+            enabled: true
+    dataformat:
+        jackson:
+            auto-discover-object-mapper: true
+    springboot:
+        main-run-controller: true
+    threadpool:
+        max-pool-size: 800
+        pool-size: 500
+
+filmlistmerger:
+    database:
+        startup:
+            enabled: false
+            timeout: 3
+    input:
+        path: input
+    output:
+        file: output/filmliste.json
+        format: NEW
+
+logging:
+    level:
+        liquibase: WARN
+        org:
+            apache:
+                camel: INFO
+        root: INFO
+
+spring:
+    datasource:
+        hikari:
+            maximum-pool-size: 500
+        password: filmlistmerger
+        url: jdbc:postgresql://localhost:5432/filmlistmerger?useServerPrepStmts=true&cachePrepStmts=true&rewriteBatchedStatements=true
+        username: filmlistmerger
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: none
+        properties:
+            hibernate:
+                jdbc:
+                    batch_size: 100
+                    batch_versioned_data: true
+                order_inserts: true
+                order_updates: true
+    liquibase:
+        change-log: classpath:db/changelog/master.xml
+    test:
+        database:
+            replace: none

@@ -1,0 +1,18 @@
+filmlistmerger:
+    database:
+        startup:
+            enabled: true
+            timeout: 60
+
+logging:
+    level:
+        root: INFO
+
+spring:
+    datasource:
+        url: jdbc:tc:postgresql:9.6.8:///filmlistmergertest?useServerPrepStmts=true&cachePrepStmts=true&rewriteBatchedStatements=true
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        properties:
+            hibernate:
+                generate_statistics: true
