@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.mediathekview.fimlistmerger.FilmlistTestData;
 import de.mediathekview.mlib.daten.Filmlist;
 import java.net.MalformedURLException;
-import java.nio.file.Path;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,7 +17,6 @@ import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.spring.junit5.EnableRouteCoverage;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,19 +40,14 @@ class WriteOldFilmlistFormatRouteTest {
   @Produce("direct:producer")
   private ProducerTemplate template;
 
-  private Path awaitedFilmlistPath;
-
-  @BeforeEach
-  void setUp() throws Exception {
-    awaitedFilmlistPath =
-        Paths.get(ClassLoader.getSystemResource("input/TestFilmlistOld.json").toURI());
-  }
-
   @Test
   @DisplayName("Tests if a filmlist in the old format is correctly written")
   void writeOldFilmlistFormat_filmlist_filmlistInOldFormatWritten()
-      throws MalformedURLException, InterruptedException {
+      throws MalformedURLException, InterruptedException, URISyntaxException {
     // given
+    var awaitedFilmlistPath =
+        Paths.get(ClassLoader.getSystemResource("input/TestFilmlistOld.json").toURI());
+
     Filmlist filmlist =
         new Filmlist(
             UUID.fromString("5f330449-c9d2-4b67-89b4-75373b38b9f8"),
