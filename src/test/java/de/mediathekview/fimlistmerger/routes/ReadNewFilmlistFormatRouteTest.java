@@ -9,10 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -23,36 +24,45 @@ import java.util.stream.Collectors;
 import static de.mediathekview.fimlistmerger.routes.ReadNewFilmlistFormatRoute.ROUTE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = {"camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*", "spring.liquibase.enabled=false"})
+@SpringBootTest(
+    properties = {
+      "camel.springboot.java-routes-include-pattern=**/" + ROUTE_ID + "*",
+      "spring.liquibase.enabled=false"
+    })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
 class ReadNewFilmlistFormatRouteTest {
-  @Inject
-  CamelContext camelContext;
+  @Autowired CamelContext camelContext;
 
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;
 
-  @TempDir
-  File tempDir;
+  @TempDir File tempDir;
   File tempInputFile;
 
   @Produce("direct:producer")
   private ProducerTemplate template;
 
-    @BeforeEach
-    void setUp() throws Exception {
-      setUpRouteUnderTest();
-      tempInputFile = File.createTempFile("test", ".json", tempDir);
-      Files.copy(Paths.get(ClassLoader.getSystemResource("input/TestFilmlistNew.json").toURI()), tempInputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-    }
+  @BeforeEach
+  void setUp() throws Exception {
+    setUpRouteUnderTest();
+    tempInputFile = File.createTempFile("test", ".json", tempDir);
+    Files.copy(
+        Paths.get(ClassLoader.getSystemResource("input/TestFilmlistNew.json").toURI()),
+        tempInputFile.toPath(),
+        StandardCopyOption.REPLACE_EXISTING);
+  }
 
-    private void setUpRouteUnderTest() throws Exception {
-      AdviceWith.adviceWith(
-              camelContext,
-              ROUTE_ID,
-              advice -> advice.weaveById(ReadNewFilmlistFormatRoute.SINGLE_NEW_FORMAT_FILM_ROUTING_TARGET).replace().to(mockEndpoint));
-    }
+  private void setUpRouteUnderTest() throws Exception {
+    AdviceWith.adviceWith(
+        camelContext,
+        ROUTE_ID,
+        advice ->
+            advice
+                .weaveById(ReadNewFilmlistFormatRoute.SINGLE_NEW_FORMAT_FILM_ROUTING_TARGET)
+                .replace()
+                .to(mockEndpoint));
+  }
 
   @Test
   @DisplayName("Tests if a simple film json is converted to a valid film object")
@@ -60,7 +70,9 @@ class ReadNewFilmlistFormatRouteTest {
     // given
 
     // when
-    template.sendBody(ReadNewFilmlistFormatRoute.DIRECT_SPLIT_NEW_FILMLIST_TO_FILMS, """
+    template.sendBody(
+        ReadNewFilmlistFormatRoute.DIRECT_SPLIT_NEW_FILMLIST_TO_FILMS,
+        """
       {
         "films": [
           {
@@ -72,12 +84,14 @@ class ReadNewFilmlistFormatRouteTest {
 
     // then
     mockEndpoint.assertIsSatisfied();
-    assertThat( mockEndpoint.getExchanges().stream()
-            .map(Exchange::getIn)
-            .map(Message::getBody)
-            .collect(Collectors.toList())).hasSize(1)
-            .extracting("titel")
-            .containsOnly("Ein einfacher Titel um die Objekt Erzeugung zu testen");
+    assertThat(
+            mockEndpoint.getExchanges().stream()
+                .map(Exchange::getIn)
+                .map(Message::getBody)
+                .collect(Collectors.toList()))
+        .hasSize(1)
+        .extracting("titel")
+        .containsOnly("Ein einfacher Titel um die Objekt Erzeugung zu testen");
   }
 
   @Test

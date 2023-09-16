@@ -14,13 +14,14 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -35,8 +36,8 @@ import org.springframework.test.context.ContextConfiguration;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 class FilmRepositoryIT {
 
-  @Inject FilmRepository filmRepository;
-  @Inject FilmPersistenceService filmPersistenceService;
+  @Autowired FilmRepository filmRepository;
+  @Autowired FilmPersistenceService filmPersistenceService;
 
   @Test
   @DisplayName("Save all test films - three are saved")
@@ -56,23 +57,25 @@ class FilmRepositoryIT {
 
   @Test
   @Transactional
-  void save_film_urls_are_saved()throws ExecutionException, InterruptedException {
+  void save_film_urls_are_saved() throws ExecutionException, InterruptedException {
     // GIVEN
     Film filmToSave =
-            Film.builder()
-                    .sender(Sender.ARTE_DE)
-                    .thema("FilmRepositoryIT")
-                    .titel("save_newFilm_filmSavedToDatabase")
-                    .beschreibung("Save a new film to database check if it's saved")
-                    .neu(true)
-                    .time(LocalDateTime.now())
-                    .duration(Duration.ofMinutes(45))
-                    .urls(Set.of(
-                            new FilmUrl(Type.FILM_URL, Resolution.NORMAL, "http://example.org/Test.mp4", 2L),
-                            new FilmUrl(Type.FILM_URL, Resolution.HD, "http://example.org/hd.mp4", 2L),
-                            new FilmUrl(Type.FILM_URL, Resolution.SMALL, "http://example.org/klein.mp4", 2L)
-                    ))
-                    .build();
+        Film.builder()
+            .sender(Sender.ARTE_DE)
+            .thema("FilmRepositoryIT")
+            .titel("save_newFilm_filmSavedToDatabase")
+            .beschreibung("Save a new film to database check if it's saved")
+            .neu(true)
+            .time(LocalDateTime.now())
+            .duration(Duration.ofMinutes(45))
+            .urls(
+                Set.of(
+                    new FilmUrl(
+                        Type.FILM_URL, Resolution.NORMAL, "http://example.org/Test.mp4", 2L),
+                    new FilmUrl(Type.FILM_URL, Resolution.HD, "http://example.org/hd.mp4", 2L),
+                    new FilmUrl(
+                        Type.FILM_URL, Resolution.SMALL, "http://example.org/klein.mp4", 2L)))
+            .build();
     filmToSave.getUrls().forEach(filmUrl -> filmUrl.setFilm(filmToSave));
 
     // WHEN

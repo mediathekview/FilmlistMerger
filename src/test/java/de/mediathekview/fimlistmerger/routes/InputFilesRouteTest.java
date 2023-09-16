@@ -1,5 +1,11 @@
 package de.mediathekview.fimlistmerger.routes;
 
+import static de.mediathekview.fimlistmerger.routes.InputFilesRoute.ROUTE_ID;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
@@ -11,15 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.inject.Inject;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
-import static de.mediathekview.fimlistmerger.routes.InputFilesRoute.ROUTE_ID;
 
 @SpringBootTest(
     properties = {
@@ -30,7 +29,7 @@ import static de.mediathekview.fimlistmerger.routes.InputFilesRoute.ROUTE_ID;
 class InputFilesRouteTest {
   @TempDir File tempDir;
 
-  @Inject CamelContext camelContext;
+  @Autowired CamelContext camelContext;
 
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;

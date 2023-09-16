@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import javax.inject.Inject;
 import org.apache.camel.CamelContext;
 import org.apache.camel.CamelExecutionException;
 import org.apache.camel.EndpointInject;
@@ -32,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -45,7 +45,7 @@ import org.springframework.test.annotation.DirtiesContext;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 class ConvertOldFilmlistEntryToFilmRouteTest {
 
-  @Inject CamelContext camelContext;
+  @Autowired CamelContext camelContext;
 
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;

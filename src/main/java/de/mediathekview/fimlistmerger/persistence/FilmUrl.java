@@ -1,7 +1,7 @@
 package de.mediathekview.fimlistmerger.persistence;
 
 import de.mediathekview.mlib.daten.Resolution;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

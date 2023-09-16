@@ -11,13 +11,14 @@ import org.apache.camel.test.spring.junit5.EnableRouteCoverage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -33,12 +34,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
 class FilmToDatabaseTargetRouteIT {
-  @Inject CamelContext camelContext;
+  @Autowired CamelContext camelContext;
 
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;
 
-  @Inject FilmRepository filmRepository;
+  @Autowired FilmRepository filmRepository;
 
   @Produce("direct:producer")
   private ProducerTemplate template;
@@ -66,8 +67,9 @@ class FilmToDatabaseTargetRouteIT {
             "FilmToDatabaseTargetRouteIT",
             LocalDateTime.now(),
             Duration.ofMinutes(18));
-    //500 signs lorem ipsum
-    filmToSave.setBeschreibung("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et e");
+    // 500 signs lorem ipsum
+    filmToSave.setBeschreibung(
+        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et e");
 
     // when
     template.sendBody(FilmToDatabaseTargetRoute.ROUTE_FROM, filmToSave);

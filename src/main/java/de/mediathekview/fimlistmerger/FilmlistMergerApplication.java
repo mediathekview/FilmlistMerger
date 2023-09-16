@@ -5,10 +5,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.support.DatabaseStartupValidator;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.stream.Stream;
 
@@ -39,6 +40,7 @@ public class FilmlistMergerApplication {
   }
 
   @Bean
+  @DependsOnDatabaseInitialization
   public DatabaseStartupValidator databaseStartupValidator(
       DataSource dataSource,
       @Value("${filmlistmerger.database.startup.timeout}") String timeout,

@@ -1,5 +1,12 @@
 package de.mediathekview.fimlistmerger.routes;
 
+import static de.mediathekview.fimlistmerger.routes.SwitchOnFilmlistFormatRoute.ROUTE_ID;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import org.apache.camel.*;
 import org.apache.camel.builder.AdviceWith;
 import org.apache.camel.component.mock.MockEndpoint;
@@ -8,17 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
-import javax.inject.Inject;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
-import static de.mediathekview.fimlistmerger.routes.SwitchOnFilmlistFormatRoute.ROUTE_ID;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(
     properties = {
@@ -30,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class SwitchOnFilmlistFormatRouteTest {
   @TempDir File tempDir;
 
-  @Inject CamelContext camelContext;
+  @Autowired CamelContext camelContext;
 
   @EndpointInject("mock:direct:resultOld")
   MockEndpoint mockOldFormatEndpoint;

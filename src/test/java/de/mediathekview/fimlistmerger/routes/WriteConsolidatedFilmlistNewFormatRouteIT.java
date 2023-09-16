@@ -1,11 +1,19 @@
 package de.mediathekview.fimlistmerger.routes;
 
+import static de.mediathekview.fimlistmerger.routes.WriteConsolidatedFilmlistRoute.ROUTE_ID;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import de.mediathekview.fimlistmerger.FilmlistMergerApplication;
 import de.mediathekview.fimlistmerger.persistence.Film;
 import de.mediathekview.fimlistmerger.persistence.FilmPersistenceService;
-import de.mediathekview.fimlistmerger.persistence.FilmRepository;
 import de.mediathekview.mlib.daten.Filmlist;
 import de.mediathekview.mlib.daten.Sender;
+import jakarta.transaction.Transactional;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import org.apache.camel.*;
 import org.apache.camel.builder.AdviceWith;
 import org.apache.camel.component.mock.MockEndpoint;
@@ -14,22 +22,12 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-
-import static de.mediathekview.fimlistmerger.routes.WriteConsolidatedFilmlistRoute.ROUTE_ID;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("integration-test")
 @ContextConfiguration(classes = FilmlistMergerApplication.class)
@@ -42,13 +40,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @EnableRouteCoverage
 class WriteConsolidatedFilmlistNewFormatRouteIT {
-  @Inject CamelContext camelContext;
+  @Autowired CamelContext camelContext;
 
   @EndpointInject("mock:direct:result")
   MockEndpoint mockEndpoint;
 
-  @Inject
-  FilmPersistenceService filmPersistenceService;
+  @Autowired FilmPersistenceService filmPersistenceService;
 
   @Produce("direct:producer")
   private ProducerTemplate template;

@@ -1,8 +1,13 @@
 package de.mediathekview.fimlistmerger.processors;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import de.mediathekview.fimlistmerger.persistence.Film;
 import de.mediathekview.mlib.daten.Filmlist;
 import de.mediathekview.mlib.daten.Sender;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 import org.apache.camel.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
@@ -10,15 +15,9 @@ import org.apache.camel.test.spring.junit5.EnableRouteCoverage;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
-import javax.inject.Inject;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
     properties = {
@@ -33,12 +32,12 @@ class PersistenceFilmsToFilmlistProcessorTest {
   static final String ROUTE_ID = "persistenceFilmsToFilmlistProcessorTestRoute";
   private static final String TEST_ROUTE_FROM = "direct:producer";
   private static final String TEST_ROUTE_TO = "mock:direct:result";
-  @Inject CamelContext camelContext;
+  @Autowired CamelContext camelContext;
 
   @EndpointInject(TEST_ROUTE_TO)
   MockEndpoint mockEndpoint;
 
-  @Inject PersistenceFilmsToFilmlistProcessor persistenceFilmsToFilmlistProcessor;
+  @Autowired PersistenceFilmsToFilmlistProcessor persistenceFilmsToFilmlistProcessor;
 
   @Produce(TEST_ROUTE_FROM)
   private ProducerTemplate template;
