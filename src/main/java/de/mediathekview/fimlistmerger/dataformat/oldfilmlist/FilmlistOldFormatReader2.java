@@ -154,7 +154,7 @@ public class FilmlistOldFormatReader2 {
     try {
       aFilmlist.setListId(UUID.fromString(aSplittedEntry.get(5)));
     } catch (final IllegalArgumentException illegalArgumentException) {
-      LOG.warn(String.format("Can't parse the film list id. Setting a random uuid. %s", aSplittedEntry), illegalArgumentException);
+      LOG.warn(String.format("Can't parse the film list id. Setting a random uuid. %s", aSplittedEntry));
       aFilmlist.setListId(UUID.randomUUID());
     }
   }
