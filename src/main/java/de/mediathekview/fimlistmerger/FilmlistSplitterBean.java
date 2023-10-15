@@ -52,7 +52,7 @@ public class FilmlistSplitterBean implements Processor {
   
   public <T> List<List<T>> partition(List<List<T>> inputList, int partitions){
       if (PARTITION_SIZE <= 0 || partitions <= 0) {
-        LOG.info("no paritioned active");
+        LOG.info("no partitioning active");
         return inputList;
       }
       
