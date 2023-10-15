@@ -23,6 +23,7 @@ public class FilmToDatabaseTargetRoute extends RouteBuilder {
         .routeId(ROUTE_ID)
         .to(Metrics.TIMER_WRITE_FILM_START.toString())
         .onCompletion()
+        .log("Data stored in DB")
         .to(Metrics.TIMER_WRITE_FILM_STOP.toString())
         .end()
         .process(filmToPersistenceFilmProcessor)

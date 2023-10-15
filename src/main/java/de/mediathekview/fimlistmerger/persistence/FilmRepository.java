@@ -18,8 +18,14 @@ import java.util.UUID;
 @Transactional
 public interface FilmRepository extends CrudRepository<Film, UUID> {
   
+  // OOM
+  //EntityGraph(attributePaths = {"urls", "audioDescriptions", "signLanguages", "subtitles", "geoLocations" }, type=EntityGraphType.FETCH)
+  @Transactional(readOnly = true)
   @EntityGraph(attributePaths = {"urls", "audioDescriptions", "signLanguages", "subtitles", "geoLocations" }, type=EntityGraphType.FETCH)
   List<Film> findByUuidNotNull();
+  
+  @EntityGraph(attributePaths = {"urls", "audioDescriptions", "signLanguages", "subtitles", "geoLocations" }, type=EntityGraphType.FETCH)
+  List<Film> findBySender(Sender sender);
     
   Optional<Film> findBySenderAndTitelIgnoreCaseAndThemaIgnoreCaseAndDuration(
       Sender sender, String titel, String thema, Duration duration);

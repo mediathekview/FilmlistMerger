@@ -42,6 +42,7 @@ public class WriteConsolidatedFilmlistRoute extends RouteBuilder {
         .setBody()
         //.method(filmRepository, "findAll")
         .method(filmRepository, "findByUuidNotNull")
+        //.method(filmRepository, "findBySender(ARD)")
         .process(persistenceFilmsToFilmlistProcessor)
         .log(LoggingLevel.INFO, "... finished reading from DB")
         .id(WRITE_CONSOLIDATED_FILMLIST_PERSISTENCE_FILMS_TO_FILMLIST_PROCESSOR)

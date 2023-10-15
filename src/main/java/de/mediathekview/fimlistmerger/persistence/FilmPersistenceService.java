@@ -25,7 +25,7 @@ public class FilmPersistenceService {
   private final FilmRepository filmRepository;
 
   public <S extends Film> Iterable<S> saveAllMergeIfExists(Iterable<S> entities) {
-    //LOG.info("input size " + StreamSupport.stream(entities.spliterator(), false).count());
+    LOG.info("FilmPersistenceService input size " + StreamSupport.stream(entities.spliterator(), false).count());
     // for some reason the reference needs to be handled by us
     entities.forEach(film -> { film.insertTimestamp = LocalDateTime.now();film.urls.forEach(url -> { url.film = ((Film)film); });});
     
@@ -34,6 +34,7 @@ public class FilmPersistenceService {
     //updateUuidIfFilmsAlreadyExists(modifiedEntities);
     //LOG.info("updated ids for existing " + modifiedEntities.size());
     Iterable<S> s = filmRepository.saveAll(modifiedEntities);
+    
     //LOG.info("saveAll ids for existing " + modifiedEntities.size());
     return s;
   }
