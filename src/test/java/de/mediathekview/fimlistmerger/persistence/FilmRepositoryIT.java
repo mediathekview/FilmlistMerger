@@ -61,7 +61,6 @@ class FilmRepositoryIT {
             .thema("FilmRepositoryIT")
             .titel("save_newFilm_filmSavedToDatabase")
             .beschreibung("Save a new film to database check if it's saved")
-            .neu(true)
             .time(LocalDateTime.now())
             .duration(Duration.ofMinutes(45))
             .build();

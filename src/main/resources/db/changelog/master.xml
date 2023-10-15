@@ -23,7 +23,7 @@
             <column name="time" type="DATETIME"/>
             <column name="beschreibung" type="text"/>
             <column name="website" type="VARCHAR(2048)"/>
-            <column name="neu" type="BOOLEAN"/>
+            <column name="insert_timestamp" type="TIMESTAMP"/>
         </createTable>
 
         <createTable tableName="film_geo_locations">
@@ -44,26 +44,12 @@
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_filmurl"/>
             </column>
-            <column name="film_id" type="UUID"/>
+            <column name="film_uuid" type="UUID"/>
             <column name="url" type="VARCHAR(2048)"/>
             <column name="resolution" type="VARCHAR(255)"/>
             <column name="file_size" type="BIGINT"/>
             <column name="type" type="VARCHAR(255)"/>
         </createTable>
-
-        <addUniqueConstraint columnNames="sender, titel, thema, duration"
-                             constraintName="uc_film_sender_titel_thema_duration"
-                             tableName="film"/>
-        <addForeignKeyConstraint baseColumnNames="film_id" baseTableName="film_url"
-                                 constraintName="FK_FILMURL_ON_FILMID" referencedColumnNames="uuid"
-                                 referencedTableName="film"/>
-        <addForeignKeyConstraint baseColumnNames="film_uuid" baseTableName="film_geo_locations"
-                                 constraintName="fk_film_geolocations_on_film" referencedColumnNames="uuid"
-                                 referencedTableName="film"/>
-        <addForeignKeyConstraint baseColumnNames="film_uuid" baseTableName="film_subtitles"
-                                 constraintName="fk_film_subtitles_on_film" referencedColumnNames="uuid"
-                                 referencedTableName="film"/>
-
         <createIndex indexName="idx_film_geo_locations_film_uuid" tableName="film_geo_locations">
           <column name="film_uuid"/>
         </createIndex>
@@ -71,7 +57,7 @@
           <column name="film_uuid"/>
         </createIndex>
         <createIndex indexName="idx_film_url_film_id" tableName="film_url">
-          <column name="film_id"/>
+          <column name="film_uuid"/>
         </createIndex>
         <createSequence sequenceName="film_urls_id_seq" incrementBy="100" startValue="1"/>  
         <sql>

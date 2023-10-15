@@ -17,8 +17,6 @@ import java.util.UUID;
 
 @Table(name = "Film", indexes = {
         @Index(name = "idx_film_uuid", columnList = "uuid")
-}, uniqueConstraints = {
-        @UniqueConstraint(name = "uc_film_sender_titel_thema_duration", columnNames = {"sender", "titel", "thema", "duration"})
 })
 @Entity
 @NoArgsConstructor
@@ -60,8 +58,6 @@ public class Film implements Serializable {
   @Column
   private String website;
 
-  @Column private boolean neu;
-
   @Column
   @OneToMany(mappedBy = "film", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
   @Where(clause = "type='AUDIO_DESCRIPTION'")
@@ -73,6 +69,9 @@ public class Film implements Serializable {
   private Set<de.mediathekview.fimlistmerger.persistence.FilmUrl> signLanguages;
 
   @ElementCollection(fetch = FetchType.LAZY) @Column private Set<String> subtitles;
+  
+  @Column
+  public LocalDateTime insertTimestamp;
 
   @Override
   public boolean equals(Object o) {

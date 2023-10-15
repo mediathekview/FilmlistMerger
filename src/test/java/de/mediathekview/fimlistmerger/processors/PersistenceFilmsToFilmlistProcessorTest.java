@@ -107,7 +107,6 @@ class PersistenceFilmsToFilmlistProcessorTest {
             .thema("PersistenceFilmsToFilmlistProcessorTest")
             .time(firstTestFilmTime)
             .duration(Duration.ofMinutes(13))
-            .neu(false)
             .beschreibung("A test film to test the persistence films to filmlist processor")
             .build(),
         Film.builder()
@@ -117,7 +116,6 @@ class PersistenceFilmsToFilmlistProcessorTest {
             .thema("PersistenceFilmsToFilmlistProcessorTest")
             .time(secondTestFilmTime)
             .duration(Duration.ofMinutes(31))
-            .neu(true)
             .beschreibung("A test film to test the persistence films to filmlist processor")
             .build());
   }

@@ -63,7 +63,6 @@ class FilmPersistenceFilmMapperTest {
         .thema("FilmPersistenceFilmMapperTest")
         .time(testFilmTime)
         .duration(Duration.ofMinutes(42))
-        .neu(true)
         .beschreibung("A test film to test the film to persistence film mapper")
         .audioDescriptions(
             Set.of(

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Spliterator;
@@ -26,10 +27,11 @@ public class FilmPersistenceService {
   public <S extends Film> Iterable<S> saveAllMergeIfExists(Iterable<S> entities) {
     //LOG.info("input size " + StreamSupport.stream(entities.spliterator(), false).count());
     // for some reason the reference needs to be handled by us
-    entities.forEach(film -> {film.urls.forEach(url -> { url.film = ((Film)film); });});
+    entities.forEach(film -> { film.insertTimestamp = LocalDateTime.now();film.urls.forEach(url -> { url.film = ((Film)film); });});
+    
     Collection<S> modifiedEntities = StreamSupport.stream(entities.spliterator(), false).collect(Collectors.toList());
     //LOG.info("converted size " + modifiedEntities.size());
-    updateUuidIfFilmsAlreadyExists(modifiedEntities);
+    //updateUuidIfFilmsAlreadyExists(modifiedEntities);
     //LOG.info("updated ids for existing " + modifiedEntities.size());
     Iterable<S> s = filmRepository.saveAll(modifiedEntities);
     //LOG.info("saveAll ids for existing " + modifiedEntities.size());

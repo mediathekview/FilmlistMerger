@@ -12,7 +12,11 @@ import javax.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @Entity
+@Table(name = "film_url", indexes = {
+    @Index(name = "idx_filmxxx_uuid", columnList = "film_uuid")
+})
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,7 +26,7 @@ public class FilmUrl {
   Logger LOG = LoggerFactory.getLogger(FilmUrl.class);
     
   @ManyToOne
-  @JoinColumn(name = "filmId", referencedColumnName = "uuid")
+  @JoinColumn(name = "film_uuid", referencedColumnName = "uuid")
   public Film film;
 
   @Id

@@ -104,7 +104,6 @@ class WriteConsolidatedFilmlistNewFormatRouteIT {
             .thema("WriteConsolidatedFilmlistRouteIT")
             .time(LocalDateTime.now())
             .duration(Duration.ofMinutes(16))
-            .neu(false)
             .beschreibung("A test film to test write consolidated filmlist route")
             .build(),
         Film.builder()
@@ -114,7 +113,6 @@ class WriteConsolidatedFilmlistNewFormatRouteIT {
             .thema("WriteConsolidatedFilmlistRouteIT")
             .time(LocalDateTime.now())
             .duration(Duration.ofMinutes(23))
-            .neu(true)
             .beschreibung("A test film to test write consolidated filmlist route")
             .build());
   }
